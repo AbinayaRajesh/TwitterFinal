@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="5dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -18,8 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ivProfileImage"
         android:layout_alignStart="@+id/tvBody"
+        android:layout_toEndOf="@+id/ivProfileImage"
         android:text="TextView" />
 
     <TextView
@@ -39,4 +39,37 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/reply"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_marginTop="16dp"
+        android:layout_toStartOf="@+id/tvBody"
+        android:onClick="reply"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_reply" />
+
+    <ImageView
+        android:id="@+id/reTweet"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignTop="@+id/ivFavorite"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:onClick="reTweet"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_vector_retweet" />
+
+    <ImageView
+        android:id="@+id/ivFavorite"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignStart="@+id/tvTimeStamp"
+        android:layout_alignTop="@+id/reply"
+        android:onClick="favorite"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_unfavorite" />
+
 </RelativeLayout>

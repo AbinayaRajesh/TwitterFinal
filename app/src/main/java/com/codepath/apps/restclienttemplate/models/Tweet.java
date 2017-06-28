@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import static com.codepath.apps.restclienttemplate.TweetAdapter.getRelativeTimeAgo;
 
@@ -9,6 +10,7 @@ import static com.codepath.apps.restclienttemplate.TweetAdapter.getRelativeTimeA
  * Created by arajesh on 6/26/17.
  */
 
+@Parcel
 public class Tweet {
 
     // list out the attributes
@@ -17,6 +19,10 @@ public class Tweet {
     public User user;
     public String createdAt;
     public String timestamp;
+    public int charLeft;
+    public boolean favorited;
+
+    public Tweet() {}
 
     // deserialize the JSON
     public static Tweet fromJSON(JSONObject jsonObject) throws JSONException {
@@ -26,8 +32,10 @@ public class Tweet {
         tweet.body = jsonObject.getString("text");
         tweet.uid = jsonObject.getLong("id");
         tweet.createdAt = jsonObject.getString("created_at");
-        tweet.user = tweet.user.fromJSON(jsonObject.getJSONObject("user"));
+        tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
         tweet.timestamp = getRelativeTimeAgo(tweet.createdAt);
+        tweet.charLeft = 140-tweet.body.length();
+        tweet.favorited = jsonObject.getBoolean("favorited");
         return tweet;
 
     }

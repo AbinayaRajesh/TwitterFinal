@@ -11,11 +11,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by arajesh on 6/26/17.
@@ -23,8 +29,22 @@ import java.util.Locale;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
-    private List<Tweet> mTweets;
-    Context context;
+
+
+
+
+    private static List<Tweet> mTweets;
+    static Context context;
+
+
+    /* Within the RecyclerView.Adapter class */
+
+    // Clean all elements of the recycler
+    public void clear() {
+       mTweets.clear();
+        notifyDataSetChanged();
+    }
+
 
     // pass in the Tweets array in the constructor
     public TweetAdapter(List<Tweet> tweets) {
@@ -57,6 +77,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvTimeStamp.setText(tweet.timestamp);
 
         Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
+
+        if(tweet.favorited==true) {
+
+            holder.ivFavorite.setImageResource(R.drawable.ic_favorite);
+        }
+        else{
+            holder.ivFavorite.setImageResource(R.drawable.ic_unfavorite);
+        }
     }
 
     @Override
@@ -71,6 +99,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public TextView tvUsername;
         public TextView tvBody;
         public TextView tvTimeStamp;
+        public ImageView ivFavorite;
+
+
+
 
         public ViewHolder (View itemView) {
             super(itemView);
@@ -81,8 +113,54 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvUsername = (TextView) itemView.findViewById(R.id.tvUserName);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvTimeStamp = (TextView) itemView.findViewById(R.id.tvTimeStamp);
+            ivFavorite = (ImageView) itemView.findViewById(R.id.ivFavorite);
+
+            ivFavorite.setOnClickListener(new View.OnClickListener() {
+                // launched for a result
+                public void onClick(View v) {
+
+                    TwitterClient client = TwitterApp.getRestClient();
+
+                    // gets item position
+                    int position = getAdapterPosition();
+                    Tweet tweet = mTweets.get(position);
+
+                    // make sure the position is valid, i.e. actually exists in the view
+                    if (position != RecyclerView.NO_POSITION) {
+                        // get the movie at the position, this won't work if the class is static
+
+                        client.addFavorite(tweet.uid, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                Tweet tweet = null;
+                                try {
+                                    tweet = Tweet.fromJSON(response);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                tweet.favorited = true;
+
+                                Glide.with(context)
+                                        .load(R.drawable.ic_favorite)
+                                        .into(ivFavorite);
+
+
+
+                            }
+                        });
+                    }
+                }
+
+            });
+
+
         }
     }
+
+
+
+
 
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
     public static String getRelativeTimeAgo(String rawJsonDate) {
@@ -101,6 +179,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         return relativeDate;
     }
+
+
 
 
 }
