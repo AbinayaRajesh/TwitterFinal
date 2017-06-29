@@ -21,6 +21,7 @@ public class Tweet {
     public String timestamp;
     public int charLeft;
     public boolean favorited;
+    public boolean reTweeted;
 
     public Tweet() {}
 

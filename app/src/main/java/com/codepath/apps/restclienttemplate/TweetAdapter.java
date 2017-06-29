@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +37,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     private static List<Tweet> mTweets;
     static Context context;
+    //TwitterClient client = TwitterApp.getRestClient();
 
 
     /* Within the RecyclerView.Adapter class */
@@ -85,6 +88,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         else{
             holder.ivFavorite.setImageResource(R.drawable.ic_unfavorite);
         }
+
+        if(tweet.reTweeted==true) {
+            holder.ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+        }
+        else{
+            holder.ivRetweet.setImageResource(R.drawable.ic_vector_retweet);
+        }
     }
 
     @Override
@@ -100,6 +110,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public TextView tvBody;
         public TextView tvTimeStamp;
         public ImageView ivFavorite;
+        public ImageView ivRetweet;
 
 
 
@@ -114,6 +125,62 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvTimeStamp = (TextView) itemView.findViewById(R.id.tvTimeStamp);
             ivFavorite = (ImageView) itemView.findViewById(R.id.ivFavorite);
+            ivRetweet = (ImageView) itemView.findViewById(R.id.reTweet);
+
+            ivRetweet.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    TwitterClient client = TwitterApp.getRestClient();
+
+                    // gets item position
+                    int position = getAdapterPosition();
+                    Tweet tweet = mTweets.get(position);
+
+                    // make sure the position is valid, i.e. actually exists in the view
+                    if (position != RecyclerView.NO_POSITION) {
+                        // get the movie at the position, this won't work if the class is static
+
+
+                        client.reTweet(tweet.uid, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                Tweet tweet = null;
+                                try {
+                                    tweet = Tweet.fromJSON(response);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                tweet.reTweeted = true;
+
+                                Glide.with(context)
+                                        .load(R.drawable.ic_vector_retweet_stroke)
+                                        .into(ivRetweet);
+
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                Log.i("TweetAdapter","here");
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                super.onFailure(statusCode, headers, responseString, throwable);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+                            }
+                        });
+
+                    }
+                }
+
+            });
+
 
             ivFavorite.setOnClickListener(new View.OnClickListener() {
                 // launched for a result
@@ -129,27 +196,43 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     if (position != RecyclerView.NO_POSITION) {
                         // get the movie at the position, this won't work if the class is static
 
-                        client.addFavorite(tweet.uid, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                Tweet tweet = null;
-                                try {
-                                    tweet = Tweet.fromJSON(response);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+
+                        if (tweet.favorited==false) {
+
+                            client.addFavorite(tweet.uid, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    Glide.with(context)
+                                            .load(R.drawable.ic_favorite)
+                                            .into(ivFavorite);
                                 }
 
-                                tweet.favorited = true;
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                                }
+                            });
+                        }
 
-                                Glide.with(context)
-                                        .load(R.drawable.ic_favorite)
-                                        .into(ivFavorite);
+                        else {
 
+                            client.unFavorite(tweet.uid, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                    Glide.with(context)
+                                            .load(R.drawable.ic_unfavorite)
+                                            .into(ivFavorite);
+                                }
 
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 
-                            }
-                        });
+                                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                                }
+                            });
+                        }
                     }
+                    tweet.favorited = !tweet.favorited;
                 }
 
             });
