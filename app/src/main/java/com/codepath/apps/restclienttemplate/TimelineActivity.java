@@ -62,6 +62,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     public void onComposeAction(MenuItem mi) {
         Intent i = new Intent(TimelineActivity.this, ComposeActivity.class);
+        i.putExtra("reply", false);
         i.putExtra("username", "abi"); // pass arbitrary data to launched activity
         startActivityForResult(i, REQUEST_CODE);
     }
@@ -98,10 +99,6 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
-
-        //MenuItem miCompose = (MenuItem) findViewById(R.id.miCompose);
-        //miCompose.setOnMenuItemClickListener(mCorkyListener);
 
 
         // Find the toolbar view inside the activity layout

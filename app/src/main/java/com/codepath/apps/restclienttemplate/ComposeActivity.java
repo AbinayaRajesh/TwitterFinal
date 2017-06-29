@@ -21,10 +21,14 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.loopj.android.http.AsyncHttpClient.log;
+
 public class ComposeActivity extends AppCompatActivity {
 
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
+    long tweet_id;
+    Boolean reply = false;
 
 
 
@@ -32,6 +36,18 @@ public class ComposeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+
+        reply = getIntent().getBooleanExtra("reply", false);
+        tweet_id = getIntent().getLongExtra("tweet_id", -1);
+        if (tweet_id!=-1) {
+            String username = getIntent().getStringExtra("username");
+            TextView tvReply = (TextView) findViewById(R.id.tvReply);
+            tvReply.setText("@"+username);
+            reply = true;
+        }
+
+
+
         final TextView mTextView = (TextView) findViewById(R.id.tvCharLeft);
         EditText mEditText = (EditText) findViewById(R.id.etTweet);
 
@@ -64,31 +80,62 @@ public class ComposeActivity extends AppCompatActivity {
         TwitterClient client = new TwitterClient(this);
         // final Intent intent = new Intent(this, TimelineActivity.class);
 
+        if(!reply) {
+            client.sendTweet(data, (new JsonHttpResponseHandler() {
+                // REQUEST_CODE can be any value we like, used to determine the result type later
+                // private final int REQUEST_CODE = 20;
+                private final int RESULT_OK = 20;
 
-        client.sendTweet(data, (new JsonHttpResponseHandler() {
-                                   // REQUEST_CODE can be any value we like, used to determine the result type later
-                                   // private final int REQUEST_CODE = 20;
-                                   private final int RESULT_OK = 20;
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Intent intent = new Intent();
+                    Tweet tweet = null;
 
-                                   @Override
-                                   public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                       Intent intent = new Intent();
-                                       Tweet tweet = null;
+                    try {
+                        tweet = Tweet.fromJSON(response);
 
-                                       try {
-                                           tweet = Tweet.fromJSON(response);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-                                       } catch (JSONException e) {
-                                           e.printStackTrace();
-                                       }
+                    intent.putExtra("NewTweet", Parcels.wrap(tweet));
 
-                                       intent.putExtra("NewTweet", Parcels.wrap(tweet));
+                    setResult(RESULT_OK, intent); // set result code and bundle data for response
+                    finish(); // closes the activity, pass data to parent
+                }
+            }));
 
-                                       setResult(RESULT_OK, intent); // set result code and bundle data for response
-                                       finish(); // closes the activity, pass data to parent
+        }
+        else {
 
-                                   }
-                               }));
+
+            client.reply(data, tweet_id, (new JsonHttpResponseHandler() {
+
+                // REQUEST_CODE can be any value we like, used to determine the result type later
+                // private final int REQUEST_CODE = 20;
+                private final int RESULT_OK = 20;
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Intent intent = new Intent();
+                    Tweet tweet = null;
+
+                    try {
+                        tweet = Tweet.fromJSON(response);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    intent.putExtra("NewTweet", Parcels.wrap(tweet));
+                    log.d("hereeee", String.valueOf(tweet_id));
+
+                    setResult(RESULT_OK, intent); // set result code and bundle data for response
+                    finish(); // closes the activity, pass data to parent
+
+                }
+            }));
+        }
 
 
 

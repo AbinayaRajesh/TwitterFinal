@@ -47,5 +47,13 @@
         android:layout_alignParentTop="true"
         android:layout_above="@+id/etTweet" />
 
+    <TextView
+        android:id="@+id/tvReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/etTweet"
+        android:layout_toStartOf="@+id/tvCharLeft"
+        android:text="Compose" />
+
 
 </RelativeLayout>

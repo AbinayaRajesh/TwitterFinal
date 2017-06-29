@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -114,8 +115,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
 
 
-
-        public ViewHolder (View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
 
             // perform findViewById lookups
@@ -137,7 +137,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     Tweet tweet = mTweets.get(position);
 
                     // make sure the position is valid, i.e. actually exists in the view
-                    if (position != RecyclerView.NO_POSITION && tweet.reTweeted==false) {
+                    if (position != RecyclerView.NO_POSITION && tweet.reTweeted == false) {
                         // get the movie at the position, this won't work if the class is static
 
 
@@ -154,11 +154,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                             }
 
 
-
-
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                Log.i("TweetAdapter","here");
+                                Log.i("TweetAdapter", "here");
                                 super.onFailure(statusCode, headers, throwable, errorResponse);
                             }
 
@@ -195,7 +193,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                         // get the movie at the position, this won't work if the class is static
 
 
-                        if (tweet.favorited==false) {
+                        if (tweet.favorited == false) {
 
                             client.addFavorite(tweet.uid, new JsonHttpResponseHandler() {
                                 @Override
@@ -210,9 +208,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                     super.onFailure(statusCode, headers, throwable, errorResponse);
                                 }
                             });
-                        }
-
-                        else {
+                        } else {
 
                             client.unFavorite(tweet.uid, new JsonHttpResponseHandler() {
                                 @Override
@@ -234,70 +230,72 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 }
 
             });
-//
-//            ivReply.setOnClickListener(new View.OnClickListener() {
-//                public void onClick(View v) {
-//                    TwitterClient client = TwitterApp.getRestClient();
-//
-//                    // gets item position
-//                    int position = getAdapterPosition();
-//                    Tweet tweet = mTweets.get(position);
-//                    int in_reply_to_status_id = tweet.in_reply_to_status_id;
-//
-//                    // make sure the position is valid, i.e. actually exists in the view
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        // get the movie at the position, this won't work if the class is static
-//
-//
-//                        client.reply(in_reply_to_status_id, new JsonHttpResponseHandler() {
-//                            // REQUEST_CODE can be any value we like, used to determine the result type later
-//                            private final int REQUEST_CODE = 20;
-//
-//                            @Override
-//                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                                Log.i("TweetAdapter","heree");
-//
-//                                Glide.with(context)
-//                                        .load(R.drawable.ic_vector_retweet_stroke)
-//                                        .into(ivRetweet);
-//
-//
-//                                }
-//
-//
-//
-//                            @Override
-//                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                                Log.d("TwitterClient", responseString);
-//                                throwable.printStackTrace();
-//                            }
-//
-//                            @Override
-//                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                                Log.d("TwitterClient", errorResponse.toString());
-//                                throwable.printStackTrace();
-//                            }
-//
-//                            @Override
-//                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                                Log.d("TwitterClient", errorResponse.toString());
-//                                throwable.printStackTrace();
-//                            }
-//                        });
-//
-//                    }
-//                }
-//
-//            });
+
+            ivReply.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    TwitterClient client = TwitterApp.getRestClient();
+
+                    // gets item position
+                    int position = getAdapterPosition();
+                    // make sure the position is valid, i.e. actually exists in the view
+                    if (position != RecyclerView.NO_POSITION) {
+                        // get the movie at the position, this won't work if the class is static
+                        Tweet tweet = mTweets.get(position);
+
+                        long in_reply_to_status_id = tweet.uid;
+
+                        // create intent for the new activity
+                        Intent intent = new Intent(context, ComposeActivity.class);
+                        // serialize the movie using parceler, use its short name as a key
+                        intent.putExtra("reply", true);
+                        intent.putExtra("username", tweet.user.screenName);
+                        intent.putExtra("tweet_id", tweet.uid);
+                        // show the activity
+                        context.startActivity(intent);
+                        String message = "Hi";
 
 
+                        client.reply(message, in_reply_to_status_id, new JsonHttpResponseHandler() {
+                            // REQUEST_CODE can be any value we like, used to determine the result type later
+                            private final int REQUEST_CODE = 20;
+
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                Log.i("TweetAdapter","heree");
+
+                                Glide.with(context)
+                                        .load(R.drawable.ic_vector_retweet_stroke)
+                                        .into(ivRetweet);
+
+
+                                }
+
+
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Log.d("TwitterClient", responseString);
+                                throwable.printStackTrace();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                Log.d("TwitterClient", errorResponse.toString());
+                                throwable.printStackTrace();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                Log.d("TwitterClient", errorResponse.toString());
+                                throwable.printStackTrace();
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
-
-
-
-
-
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
     public static String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";

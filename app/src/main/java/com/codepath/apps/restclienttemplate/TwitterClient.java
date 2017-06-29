@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.TwitterApi;
@@ -93,12 +94,13 @@ public class TwitterClient extends OAuthBaseClient {
         client.post(apiUrl, params, handler);
     }
 
-    public void reply(int in_reply_to_status_id, AsyncHttpResponseHandler handler) {
+    public void reply(String message, long in_reply_to_status_id, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("statuses/update.json");
         // Can specify query string params directly or through RequestParams.
         RequestParams params = new RequestParams();
-
-        // params.put("in_reply_to_status_id", in_reply_to_status_id);
+        params.put("status", message);
+        params.put("in_reply_to_status_id", in_reply_to_status_id);
+        Log.d("Clientz",String.valueOf(in_reply_to_status_id));
         client.post(apiUrl, params, handler);
     }
 
