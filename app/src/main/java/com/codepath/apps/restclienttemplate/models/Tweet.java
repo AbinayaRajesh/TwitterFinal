@@ -23,8 +23,6 @@ public class Tweet {
     public int charLeft;
     public boolean favorited;
     public boolean reTweeted;
-    //public boolean reply;
-
 
     public Tweet() {}
 
@@ -46,7 +44,6 @@ public class Tweet {
         else {
             tweet.in_reply_to_status_id = jsonObject.getInt("in_reply_to_status_id");
         }
-        //tweet.reply = false;
         return tweet;
 
     }

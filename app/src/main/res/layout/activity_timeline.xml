@@ -9,36 +9,28 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
         android:layout_width="384dp"
         android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
         android:background="#4099FF"
-        >
-    </android.support.v7.widget.Toolbar>
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@android:color/white"></android.support.v7.widget.Toolbar>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
         android:layout_above="@+id/pbProgressAction"
+        android:layout_below="@+id/toolbar"
         tools:layout_editor_absoluteX="15dp">
 
         <android.support.v7.widget.RecyclerView
-
             android:id="@+id/rvTweet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:layout_alignParentBottom="true"
-
-
-             />
+            android:layout_marginTop="0dp" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
 
 
 </RelativeLayout>

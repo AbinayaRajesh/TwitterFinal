@@ -17,16 +17,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
-
 import cz.msebera.android.httpclient.Header;
-
-import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class ComposeActivity extends AppCompatActivity {
 
-    TweetAdapter tweetAdapter;
-    ArrayList<Tweet> tweets;
     long tweet_id;
     Boolean reply = false;
 
@@ -78,12 +72,10 @@ public class ComposeActivity extends AppCompatActivity {
         final String data = etName.getText().toString();
 
         TwitterClient client = new TwitterClient(this);
-        // final Intent intent = new Intent(this, TimelineActivity.class);
 
         if(!reply) {
             client.sendTweet(data, (new JsonHttpResponseHandler() {
                 // REQUEST_CODE can be any value we like, used to determine the result type later
-                // private final int REQUEST_CODE = 20;
                 private final int RESULT_OK = 20;
 
                 @Override
@@ -112,24 +104,19 @@ public class ComposeActivity extends AppCompatActivity {
             client.reply(data, tweet_id, (new JsonHttpResponseHandler() {
 
                 // REQUEST_CODE can be any value we like, used to determine the result type later
-                // private final int REQUEST_CODE = 20;
                 private final int RESULT_OK = 20;
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Intent intent = new Intent();
                     Tweet tweet = null;
-
                     try {
                         tweet = Tweet.fromJSON(response);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     intent.putExtra("NewTweet", Parcels.wrap(tweet));
-                    log.d("hereeee", String.valueOf(tweet_id));
-
                     setResult(RESULT_OK, intent); // set result code and bundle data for response
                     finish(); // closes the activity, pass data to parent
 

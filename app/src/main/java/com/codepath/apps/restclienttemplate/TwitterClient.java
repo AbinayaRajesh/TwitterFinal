@@ -1,7 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.TwitterApi;
@@ -100,7 +99,6 @@ public class TwitterClient extends OAuthBaseClient {
         RequestParams params = new RequestParams();
         params.put("status", message);
         params.put("in_reply_to_status_id", in_reply_to_status_id);
-        Log.d("Clientz",String.valueOf(in_reply_to_status_id));
         client.post(apiUrl, params, handler);
     }
 

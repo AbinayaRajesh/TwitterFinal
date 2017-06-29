@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ProgressBar;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -164,13 +163,8 @@ public class TimelineActivity extends AppCompatActivity {
     private void populateTimeline(){
 
         client.getHomeTimeline(new JsonHttpResponseHandler() {
-    // REQUEST_CODE can be any value we like, used to determine the result type later
-    private final int REQUEST_CODE = 20;
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
-                // Log.d("TwitterClient", response.toString());
                 // iterate through the JSON array
                 // for each entry, deserialize the JSON object
                 for (int i=0; i < response.length(); i++) {
@@ -217,7 +211,6 @@ public class TimelineActivity extends AppCompatActivity {
 
     }
 
-    // ActivityOne.java, time to handle the result of the sub-activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -228,22 +221,8 @@ public class TimelineActivity extends AppCompatActivity {
             tweets.add(0, tweet);
             tweetAdapter.notifyItemInserted(0);
             rvTweets.scrollToPosition(0);
-
-            // Extract name value from result extras
-            String NewTweet = data.getExtras().getString("NewTweet");
-
         }
     }
 
-
-
-
-    public void reply(View view) {
-
-    }
-
-    public void reTweet(View view) {
-
-    }
 
 }
