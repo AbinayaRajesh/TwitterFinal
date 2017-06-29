@@ -15,7 +15,6 @@ import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
@@ -111,6 +110,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public TextView tvTimeStamp;
         public ImageView ivFavorite;
         public ImageView ivRetweet;
+        public ImageView ivReply;
 
 
 
@@ -126,6 +126,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvTimeStamp = (TextView) itemView.findViewById(R.id.tvTimeStamp);
             ivFavorite = (ImageView) itemView.findViewById(R.id.ivFavorite);
             ivRetweet = (ImageView) itemView.findViewById(R.id.reTweet);
+            ivReply = (ImageView) itemView.findViewById(R.id.ivReply);
 
             ivRetweet.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -136,21 +137,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     Tweet tweet = mTweets.get(position);
 
                     // make sure the position is valid, i.e. actually exists in the view
-                    if (position != RecyclerView.NO_POSITION) {
+                    if (position != RecyclerView.NO_POSITION && tweet.reTweeted==false) {
                         // get the movie at the position, this won't work if the class is static
 
 
                         client.reTweet(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                Tweet tweet = null;
-                                try {
-                                    tweet = Tweet.fromJSON(response);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
 
-                                tweet.reTweeted = true;
 
                                 Glide.with(context)
                                         .load(R.drawable.ic_vector_retweet_stroke)
@@ -158,6 +152,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
 
                             }
+
+
+
 
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -177,6 +174,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                         });
 
                     }
+                    tweet.reTweeted = true;
                 }
 
             });
@@ -236,6 +234,61 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 }
 
             });
+//
+//            ivReply.setOnClickListener(new View.OnClickListener() {
+//                public void onClick(View v) {
+//                    TwitterClient client = TwitterApp.getRestClient();
+//
+//                    // gets item position
+//                    int position = getAdapterPosition();
+//                    Tweet tweet = mTweets.get(position);
+//                    int in_reply_to_status_id = tweet.in_reply_to_status_id;
+//
+//                    // make sure the position is valid, i.e. actually exists in the view
+//                    if (position != RecyclerView.NO_POSITION) {
+//                        // get the movie at the position, this won't work if the class is static
+//
+//
+//                        client.reply(in_reply_to_status_id, new JsonHttpResponseHandler() {
+//                            // REQUEST_CODE can be any value we like, used to determine the result type later
+//                            private final int REQUEST_CODE = 20;
+//
+//                            @Override
+//                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                                Log.i("TweetAdapter","heree");
+//
+//                                Glide.with(context)
+//                                        .load(R.drawable.ic_vector_retweet_stroke)
+//                                        .into(ivRetweet);
+//
+//
+//                                }
+//
+//
+//
+//                            @Override
+//                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                                Log.d("TwitterClient", responseString);
+//                                throwable.printStackTrace();
+//                            }
+//
+//                            @Override
+//                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                                Log.d("TwitterClient", errorResponse.toString());
+//                                throwable.printStackTrace();
+//                            }
+//
+//                            @Override
+//                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+//                                Log.d("TwitterClient", errorResponse.toString());
+//                                throwable.printStackTrace();
+//                            }
+//                        });
+//
+//                    }
+//                }
+//
+//            });
 
 
         }

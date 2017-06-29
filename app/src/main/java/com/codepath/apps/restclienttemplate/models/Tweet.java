@@ -19,9 +19,11 @@ public class Tweet {
     public User user;
     public String createdAt;
     public String timestamp;
+    // public int in_reply_to_status_id;
     public int charLeft;
     public boolean favorited;
     public boolean reTweeted;
+
 
     public Tweet() {}
 
@@ -37,6 +39,7 @@ public class Tweet {
         tweet.timestamp = getRelativeTimeAgo(tweet.createdAt);
         tweet.charLeft = 140-tweet.body.length();
         tweet.favorited = jsonObject.getBoolean("favorited");
+        // tweet.in_reply_to_status_id = jsonObject.getInt("in_reply_to_status_id");
         return tweet;
 
     }
