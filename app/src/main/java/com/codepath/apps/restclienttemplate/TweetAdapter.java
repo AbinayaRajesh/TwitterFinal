@@ -78,8 +78,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.tvTimeStamp.setText(tweet.timestamp);
-        holder.tvRetweetCount.setText(String.valueOf(tweet.retweet_count));
-        holder.tvFavoriteCount.setText(String.valueOf(tweet.user.favorites_count));
+        holder.rc = tweet.retweet_count;
+        holder.tvRetweetCount.setText(String.valueOf(holder.rc));
+        holder.fc = tweet.favorites_count;
+        holder.tvFavoriteCount.setText(String.valueOf(holder.fc));
 
         Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
 
@@ -92,10 +94,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         }
 
         if(tweet.reTweeted==true) {
-            holder.ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+            holder.ivRetweet.setImageResource(R.drawable.ic_vector_retweet);
         }
         else{
-            holder.ivRetweet.setImageResource(R.drawable.ic_vector_retweet);
+            holder.ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
         }
     }
 
@@ -116,6 +118,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public ImageView ivReply;
         public TextView tvRetweetCount;
         public TextView tvFavoriteCount;
+        public long fc;
+        public long rc;
 
 
 
@@ -143,42 +147,82 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     Tweet tweet = mTweets.get(position);
 
                     // make sure the position is valid, i.e. actually exists in the view
-                    if (position != RecyclerView.NO_POSITION && tweet.reTweeted == false) {
+                    if (position != RecyclerView.NO_POSITION) {
                         // get the movie at the position, this won't work if the class is static
 
-
-                        client.reTweet(tweet.uid, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        if (tweet.reTweeted==false) {
 
 
-                                Glide.with(context)
-                                        .load(R.drawable.ic_vector_retweet_stroke)
-                                        .into(ivRetweet);
+                            client.reTweet(tweet.uid, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
 
-                            }
+                                    Glide.with(context)
+                                            .load(R.drawable.ic_vector_retweet)
+                                            .into(ivRetweet);
+                                    tvRetweetCount.setText(String.valueOf(rc+1));
+                                    rc+=1;
 
 
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                Log.i("TweetAdapter", "here");
-                                super.onFailure(statusCode, headers, throwable, errorResponse);
-                            }
 
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                super.onFailure(statusCode, headers, responseString, throwable);
-                            }
+                                }
 
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                                super.onFailure(statusCode, headers, throwable, errorResponse);
-                            }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    Log.i("TweetAdapter", "here");
+                                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                    super.onFailure(statusCode, headers, responseString, throwable);
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                                }
+                            });
+                        }
+                        else {
+                            client.unRetweet(tweet.uid, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+
+                                    Glide.with(context)
+                                            .load(R.drawable.ic_vector_retweet_stroke)
+                                            .into(ivRetweet);
+                                    tvRetweetCount.setText(String.valueOf(rc-1));
+                                    rc-=1;
+
+
+                                }
+
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                    Log.i("TweetAdapter", "here");
+                                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                    super.onFailure(statusCode, headers, responseString, throwable);
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                                }
                         });
 
+
                     }
-                    tweet.reTweeted = true;
+                    tweet.reTweeted = !tweet.reTweeted;
+                    }
                 }
 
             });
@@ -207,6 +251,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                     Glide.with(context)
                                             .load(R.drawable.ic_favorite)
                                             .into(ivFavorite);
+                                    tvFavoriteCount.setText(String.valueOf(fc+1));
+                                    fc+=1;
                                 }
 
                                 @Override
@@ -222,6 +268,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                     Glide.with(context)
                                             .load(R.drawable.ic_unfavorite)
                                             .into(ivFavorite);
+                                    tvFavoriteCount.setText(String.valueOf(fc-1));
+                                    fc-=1;
                                 }
 
                                 @Override
@@ -262,9 +310,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                         String message = "Hi";
 
 
+
+
                         client.reply(message, in_reply_to_status_id, new JsonHttpResponseHandler() {
-                            // REQUEST_CODE can be any value we like, used to determine the result type later
-                            private final int REQUEST_CODE = 20;
+
 
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

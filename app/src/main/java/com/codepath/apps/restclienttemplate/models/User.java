@@ -29,7 +29,7 @@ public class User {
         user.uid = json.getLong("id");
         user.screenName = json.getString("screen_name");
         user.profileImageUrl = json.getString("profile_image_url");
-        user.favorites_count = json.getLong("favourites_count");
+        //user.favorites_count = json.getLong("favourites_count");
 
         return user;
 
