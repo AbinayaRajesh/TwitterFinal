@@ -59,6 +59,10 @@ public class TimelineActivity extends AppCompatActivity {
     private final int REQUEST_CODE = 20;
     private final int RESULT_OK = 20;
 
+    // Store a member variable for the listener
+    private EndlessRecyclerViewScrollListener scrollListener;
+
+
     public void onComposeAction(MenuItem mi) {
         Intent i = new Intent(TimelineActivity.this, ComposeActivity.class);
         i.putExtra("reply", false);
@@ -90,7 +94,7 @@ public class TimelineActivity extends AppCompatActivity {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                fetchTimelineAsync(0);
+                fetchTimelineAsync();
             }
         });
         // Configure the refreshing colors
@@ -115,20 +119,67 @@ public class TimelineActivity extends AppCompatActivity {
         // construct the adapter from this datasource
         tweetAdapter = new TweetAdapter(tweets);
         //RecyclerView setup (layout manager, use adapter)
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(linearLayoutManager);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadNextDataFromApi(totalItemsCount - 1);
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        rvTweets.addOnScrollListener(scrollListener);
+
         // set the adapter
         rvTweets.setAdapter(tweetAdapter);
         populateTimeline();
     }
 
-    public void fetchTimelineAsync(int page) {
+    // Append the next page of data into the adapter
+    // This method probably sends out a network request and appends new data items to your adapter.
+    public void loadNextDataFromApi(int offset) {
+        long Id = tweets.get(tweets.size()-1).uid;
+        client.getHomeTimeline(Id, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                hideProgressBar();
+
+                for (int i = 0; i < json.length(); i++) {
+                    Tweet tweet = null;
+                    try {
+                        tweet = Tweet.fromJSON(json.getJSONObject(i));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    tweets.add(tweet);
+                    tweetAdapter.notifyItemInserted(tweets.size() - 1);
+                }
+
+                // Now we call setRefreshing(false) to signal refresh has finished
+                swipeContainer.setRefreshing(false);
+            }
+
+            public void onFailure(Throwable e) {
+                hideProgressBar();
+                Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+            }
+        });
+    }
+
+
+
+    public void fetchTimelineAsync() {
+        //long Id = tweets.get(tweets.size()-1).uid;
         // Send the network request to fetch the updated data
         // `client` here is an instance of Android Async HTTP
         // getHomeTimeline is an example endpoint.
         showProgressBar();
 
-
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+        client.getHomeTimelineFirst( new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
@@ -162,7 +213,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     private void populateTimeline(){
 
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+        client.getHomeTimelineFirst( new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // iterate through the JSON array
