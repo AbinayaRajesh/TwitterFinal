@@ -111,4 +111,11 @@ public class TwitterClient extends OAuthBaseClient {
         client.post(apiUrl, params, handler);
     }
 
+    public void count(long id, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("statuses/show"+id+".json");
+        // Can specify query string params directly or through RequestParams.
+        RequestParams params = new RequestParams();
+        client.post(apiUrl, params, handler);
+    }
+
 }

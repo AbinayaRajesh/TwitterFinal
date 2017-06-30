@@ -5,6 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rel">
+
     <ImageView
         android:id="@+id/ivProfileImage"
         android:layout_width="50dp"
@@ -24,13 +29,14 @@
 
     <TextView
         android:id="@+id/tvBody"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ivProfileImage"
+
         android:layout_below="@+id/tvUserName"
         android:layout_marginLeft="5dp"
-        android:autoLink="all"
         android:layout_toEndOf="@+id/ivProfileImage"
+        android:autoLink="all"
+
         android:text="TextView" />
 
     <TextView
@@ -40,37 +46,58 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:text="TextView" />
+    </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/ivReply"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_below="@+id/ivProfileImage"
-        android:layout_marginTop="16dp"
-        android:layout_toStartOf="@+id/tvBody"
-        android:onClick="reply"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_reply" />
 
-    <ImageView
-        android:id="@+id/reTweet"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignTop="@+id/ivFavorite"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:onClick="reTweet"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_vector_retweet" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout">
 
-    <ImageView
-        android:id="@+id/ivFavorite"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignStart="@+id/tvTimeStamp"
-        android:layout_alignTop="@+id/ivReply"
-        android:onClick="favorite"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_unfavorite" />
+        <ImageView
+            android:id="@+id/ivReply"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:onClick="reply"
+            android:src="@drawable/ic_reply"
+            android:layout_weight="3" />
+
+        <ImageView
+            android:id="@+id/reTweet"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:onClick="reTweet"
+            android:layout_gravity="left"
+            android:src="@drawable/ic_vector_retweet"
+            android:layout_weight="2"/>
+
+        <TextView
+            android:id="@+id/tvReweetCount"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="0" />
+
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:onClick="favorite"
+            android:layout_weight="2"
+            android:src="@drawable/ic_unfavorite" />
+
+        <TextView
+            android:id="@+id/tvFavoriteCount"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="0" />
+
+
+    </LinearLayout>
 
 </RelativeLayout>

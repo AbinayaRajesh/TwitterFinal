@@ -78,6 +78,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.tvTimeStamp.setText(tweet.timestamp);
+        holder.tvRetweetCount.setText(String.valueOf(tweet.retweet_count));
+        holder.tvFavoriteCount.setText(String.valueOf(tweet.user.favorites_count));
 
         Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
 
@@ -112,6 +114,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public ImageView ivFavorite;
         public ImageView ivRetweet;
         public ImageView ivReply;
+        public TextView tvRetweetCount;
+        public TextView tvFavoriteCount;
 
 
 
@@ -127,6 +131,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             ivFavorite = (ImageView) itemView.findViewById(R.id.ivFavorite);
             ivRetweet = (ImageView) itemView.findViewById(R.id.reTweet);
             ivReply = (ImageView) itemView.findViewById(R.id.ivReply);
+            tvFavoriteCount = (TextView) itemView.findViewById(R.id.tvFavoriteCount);
+            tvRetweetCount = (TextView) itemView.findViewById(R.id.tvReweetCount);
 
             ivRetweet.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {

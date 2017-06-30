@@ -23,6 +23,8 @@ public class Tweet {
     public int charLeft;
     public boolean favorited;
     public boolean reTweeted;
+    public long favorites_count;
+    public long retweet_count;
 
     public Tweet() {}
 
@@ -38,6 +40,9 @@ public class Tweet {
         tweet.timestamp = getRelativeTimeAgo(tweet.createdAt);
         tweet.charLeft = 140-tweet.body.length();
         tweet.favorited = jsonObject.getBoolean("favorited");
+        tweet.retweet_count = jsonObject.getLong("retweet_count");
+
+
         if(jsonObject.isNull("in_reply_to_status_id")) {
             tweet.in_reply_to_status_id=0;
         }
