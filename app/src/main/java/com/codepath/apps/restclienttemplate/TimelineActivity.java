@@ -23,6 +23,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
@@ -55,6 +56,7 @@ public class TimelineActivity extends AppCompatActivity {
     TwitterClient client;
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
+    // @BindView(R.id.rvTweets) RecyclerView rvTweets;
     RecyclerView rvTweets;
     private final int REQUEST_CODE = 20;
     private final int RESULT_OK = 20;
@@ -84,6 +86,7 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+        ButterKnife.bind(this);
 
 //        RelativeLayout rel = (RelativeLayout) findViewById(R.id.rel);
 //        rel.setOnClickListener(new View.OnClickListener() {

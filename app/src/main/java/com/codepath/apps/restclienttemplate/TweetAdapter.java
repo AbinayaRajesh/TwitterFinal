@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 /**
@@ -72,6 +74,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
         // get the data according to position
         Tweet tweet = mTweets.get(position);
         // populate the views according to this data
@@ -109,15 +112,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     // create ViewHolder class
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView ivProfileImage;
-        public TextView tvUsername;
-        public TextView tvBody;
-        public TextView tvTimeStamp;
-        public ImageView ivFavorite;
-        public ImageView ivRetweet;
-        public ImageView ivReply;
-        public TextView tvRetweetCount;
-        public TextView tvFavoriteCount;
+        @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
+        @BindView(R.id.ivFavorite) ImageView ivFavorite;
+        @BindView(R.id.ivReply) ImageView ivReply;
+        @BindView(R.id.reTweet) ImageView ivRetweet;
+        @BindView(R.id.tvBody) TextView tvBody;
+        @BindView(R.id.tvTimeStamp) TextView tvTimeStamp;
+        @BindView(R.id.tvReweetCount) TextView tvRetweetCount;
+        @BindView(R.id.tvFavoriteCount) TextView tvFavoriteCount;
+        @BindView(R.id.tvUserName) TextView tvUsername;
         public long fc;
         public long rc;
 
@@ -125,47 +128,27 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         public ViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
 
-            // perform findViewById lookups
-
-            ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
-            tvUsername = (TextView) itemView.findViewById(R.id.tvUserName);
-            tvBody = (TextView) itemView.findViewById(R.id.tvBody);
-            tvTimeStamp = (TextView) itemView.findViewById(R.id.tvTimeStamp);
-            ivFavorite = (ImageView) itemView.findViewById(R.id.ivFavorite);
-            ivRetweet = (ImageView) itemView.findViewById(R.id.reTweet);
-            ivReply = (ImageView) itemView.findViewById(R.id.ivReply);
-            tvFavoriteCount = (TextView) itemView.findViewById(R.id.tvFavoriteCount);
-            tvRetweetCount = (TextView) itemView.findViewById(R.id.tvReweetCount);
 
             ivRetweet.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     TwitterClient client = TwitterApp.getRestClient();
-
                     // gets item position
                     int position = getAdapterPosition();
                     Tweet tweet = mTweets.get(position);
-
                     // make sure the position is valid, i.e. actually exists in the view
                     if (position != RecyclerView.NO_POSITION) {
                         // get the movie at the position, this won't work if the class is static
-
-                        if (tweet.reTweeted==false) {
-
-
+                        if (!tweet.reTweeted) {
                             client.reTweet(tweet.uid, new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-
                                     Glide.with(context)
                                             .load(R.drawable.ic_vector_retweet)
                                             .into(ivRetweet);
                                     tvRetweetCount.setText(String.valueOf(rc+1));
                                     rc+=1;
-
-
-
                                 }
 
 
@@ -190,15 +173,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                             client.unRetweet(tweet.uid, new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-
                                     Glide.with(context)
                                             .load(R.drawable.ic_vector_retweet_stroke)
                                             .into(ivRetweet);
                                     tvRetweetCount.setText(String.valueOf(rc-1));
                                     rc-=1;
-
-
                                 }
 
 
