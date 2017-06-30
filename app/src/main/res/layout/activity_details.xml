@@ -90,33 +90,33 @@
             android:id="@+id/ivReply"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:onClick="reply"
-            android:src="@drawable/ic_reply"
+            android:background="@drawable/ic_reply"
+            android:layout_margin="30dp"
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/reTweet"
+            android:id="@+id/ivRetweet"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:onClick="reTweet"
-            android:src="@drawable/ic_vector_retweet"
+            android:background="@drawable/ic_vector_retweet"
+            android:layout_margin="30dp"
             android:layout_weight="1"/>
 
         <ImageView
             android:id="@+id/ivFavorite"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:onClick="favorite"
+            android:layout_margin="30dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_unfavorite" />
+            android:background="@drawable/ic_unfavorite" />
 
         <ImageView
             android:id="@+id/ivShare"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:onClick="favorite"
+            android:layout_margin="30dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_share" />
+            android:background="@drawable/ic_share" />
 
     </LinearLayout>
 
