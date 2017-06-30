@@ -17,6 +17,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,8 +40,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     private static List<Tweet> mTweets;
     static Context context;
-    //TwitterClient client = TwitterApp.getRestClient();
-
 
     /* Within the RecyclerView.Adapter class */
 
@@ -50,11 +49,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-
     // pass in the Tweets array in the constructor
     public TweetAdapter(List<Tweet> tweets) {
         mTweets = tweets;
-
     }
 
     // for each row, inflate the layout and cache references into ViewHolder
@@ -86,6 +83,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.fc = tweet.favorites_count;
         holder.tvFavoriteCount.setText(String.valueOf(holder.fc));
 
+
         Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
 
         if(tweet.favorited==true) {
@@ -102,6 +100,17 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         else{
             holder.ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
         }
+
+        if(tweet.url=="") {
+            holder.ivImg .setVisibility(View.GONE);
+        }
+        else{
+            holder.ivImg .setVisibility(View.VISIBLE);
+            Glide.with(context)
+                    .load(tweet.url)
+                    .into(holder.ivImg);
+
+        }
     }
 
     @Override
@@ -116,6 +125,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         @BindView(R.id.ivFavorite) ImageView ivFavorite;
         @BindView(R.id.ivReply) ImageView ivReply;
         @BindView(R.id.reTweet) ImageView ivRetweet;
+        @BindView(R.id.ivImg) ImageView ivImg;
         @BindView(R.id.tvBody) TextView tvBody;
         @BindView(R.id.tvTimeStamp) TextView tvTimeStamp;
         @BindView(R.id.tvReweetCount) TextView tvRetweetCount;
@@ -205,6 +215,25 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 }
 
             });
+
+
+            tvBody.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("TimelineActivity", "HERE");
+                    TwitterClient client = TwitterApp.getRestClient();
+                    // gets item position
+                    int position = getAdapterPosition();
+                    Tweet tweet = mTweets.get(position);
+                    // create intent for the new activity
+                    Intent intent = new Intent(context, DetailsActivity.class);
+                    // serialize the movie using parceler, use its short name as a key
+                    intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                    // show the activity
+                    context.startActivity(intent);
+                }
+            });
+
 
 
             ivFavorite.setOnClickListener(new View.OnClickListener() {

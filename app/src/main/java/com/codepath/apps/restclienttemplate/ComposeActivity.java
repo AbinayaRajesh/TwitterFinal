@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class ComposeActivity extends AppCompatActivity {
@@ -30,11 +31,13 @@ public class ComposeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+        ButterKnife.bind(this);
 
         reply = getIntent().getBooleanExtra("reply", false);
         tweet_id = getIntent().getLongExtra("tweet_id", -1);
         if (tweet_id!=-1) {
             String username = getIntent().getStringExtra("username");
+
             TextView tvReply = (TextView) findViewById(R.id.tvReply);
             tvReply.setText("@"+username);
             reply = true;

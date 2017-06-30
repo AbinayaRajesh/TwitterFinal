@@ -80,6 +80,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private SwipeRefreshLayout swipeContainer;
+    // TextView tvBody = (TextView) findViewById(R.id.tvBody);
 
 
     @Override
@@ -88,15 +89,9 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
         ButterKnife.bind(this);
 
-//        RelativeLayout rel = (RelativeLayout) findViewById(R.id.rel);
-//        rel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("TimelineActivity", "HERE");
-//            }
-//        });
 
         // Lookup the swipe container view
+
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

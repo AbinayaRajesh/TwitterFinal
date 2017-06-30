@@ -25,6 +25,8 @@ public class Tweet {
     public boolean reTweeted;
     public long favorites_count;
     public long retweet_count;
+    // public JSONObject entities;
+    public String url;
 
     public Tweet() {}
 
@@ -43,6 +45,13 @@ public class Tweet {
         tweet.favorited = jsonObject.getBoolean("favorited");
         tweet.retweet_count = jsonObject.getInt("retweet_count");
         tweet.favorites_count = jsonObject.getInt("favorite_count");
+        JSONObject entities = jsonObject.getJSONObject("entities");
+        tweet.url="";
+//        if (entities.getJSONArray("media")!=null && entities.getJSONArray("media").length()>0) {
+        if (entities.has("media")){
+            tweet.url = entities.getJSONArray("media").getJSONObject(0).getString("media_url");
+        }
+
 
 
         if(jsonObject.isNull("in_reply_to_status_id")) {
