@@ -212,56 +212,54 @@ public class DetailsActivity extends AppCompatActivity {
 
 
 
-//
-//        ivReply.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//
-//                TwitterClient client = TwitterApp.getRestClient();
-//
-//                long in_reply_to_status_id = tweet.uid;
-//                EditText etReply = (EditText) findViewById(R.id.etReply);
-//
-//                final String data = etReply.getText().toString();
-//
-//
-//                    client.reply(data, in_reply_to_status_id, new JsonHttpResponseHandler() {
-//
-//
-//                        @Override
-//                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                            Log.i("TweetAdapter","heree");
-//
-//                            Glide.with(context)
-//                                    .load(R.drawable.ic_vector_retweet_stroke)
-//                                    .into(ivRetweet);
-//
-//
-//                        }
-//
-//
-//
-//                        @Override
-//                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                            Log.d("TwitterClient", responseString);
-//                            throwable.printStackTrace();
-//                        }
-//
-//                        @Override
-//                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                            Log.d("TwitterClient", errorResponse.toString());
-//                            throwable.printStackTrace();
-//                        }
-//
-//                        @Override
-//                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                            Log.d("TwitterClient", errorResponse.toString());
-//                            throwable.printStackTrace();
-//                        }
-//                    });
-//
-//            }
-//        });
-//
+
+        ivReply.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                TwitterClient client = TwitterApp.getRestClient();
+
+                long in_reply_to_status_id = tweet.uid;
+                EditText etReply = (EditText) findViewById(R.id.etReply);
+
+                final String data = etReply.getText().toString();
+                client.reply(data, in_reply_to_status_id, new JsonHttpResponseHandler() {
+
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Log.i("TweetAdapter","heree");
+
+                            Glide.with(context)
+                                    .load(R.drawable.ic_vector_retweet_stroke)
+                                    .into(ivRetweet);
+
+
+                        }
+
+
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Log.d("TwitterClient", responseString);
+                            throwable.printStackTrace();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
+                    });
+
+            }
+        });
+
 
 
 
