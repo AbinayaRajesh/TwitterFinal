@@ -24,6 +24,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     long tweet_id;
     Boolean reply = false;
+    String userId;
 
 
 
@@ -39,7 +40,8 @@ public class ComposeActivity extends AppCompatActivity {
             String username = getIntent().getStringExtra("username");
 
             TextView tvReply = (TextView) findViewById(R.id.tvReply);
-            tvReply.setText("@"+username);
+            userId = "@"+username;
+            tvReply.setText(userId);
             reply = true;
         }
 
@@ -109,7 +111,7 @@ public class ComposeActivity extends AppCompatActivity {
         else {
 
 
-            client.reply(data, tweet_id, (new JsonHttpResponseHandler() {
+            client.reply(userId+" "+data, tweet_id, (new JsonHttpResponseHandler() {
 
                 // REQUEST_CODE can be any value we like, used to determine the result type later
                 private final int RESULT_OK = 20;

@@ -166,11 +166,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 TwitterClient client = TwitterApp.getRestClient();
-
-
                     // get the movie at the position, this won't work if the class is static
-
-
                     if (tweet.favorited == false) {
 
                         client.addFavorite(tweet.uid, new JsonHttpResponseHandler() {
@@ -222,12 +218,11 @@ public class DetailsActivity extends AppCompatActivity {
                 EditText etReply = (EditText) findViewById(R.id.etReply);
 
                 final String data = etReply.getText().toString();
-                client.reply(data, in_reply_to_status_id, new JsonHttpResponseHandler() {
+                client.reply("@"+ tweet.user.name+" "+data, in_reply_to_status_id, new JsonHttpResponseHandler() {
 
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Log.i("TweetAdapter","heree");
                             Intent i = new Intent(context, TimelineActivity.class);
                             startActivity(i);
                         }
