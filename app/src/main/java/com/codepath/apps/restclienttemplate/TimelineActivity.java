@@ -281,6 +281,9 @@ public class TimelineActivity extends AppCompatActivity {
             tweetAdapter.notifyItemInserted(0);
             rvTweets.scrollToPosition(0);
         }
+        if (requestCode == 3){
+            fetchTimelineAsync();
+        }
     }
 
 

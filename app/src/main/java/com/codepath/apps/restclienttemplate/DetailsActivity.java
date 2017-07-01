@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +37,8 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.ivFavorite) ImageView ivFavorite;
     @BindView(R.id.ivReply) ImageView ivReply;
     @BindView(R.id.ivRetweet) ImageView ivRetweet;
+
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,34 +210,21 @@ public class DetailsActivity extends AppCompatActivity {
 
         });
 
+
+
+//
 //        ivReply.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
 //
 //                TwitterClient client = TwitterApp.getRestClient();
 //
-//                // gets item position
-//                int position = getAdapterPosition();
-//                // make sure the position is valid, i.e. actually exists in the view
-//                if (position != RecyclerView.NO_POSITION) {
-//                    // get the movie at the position, this won't work if the class is static
-//                    Tweet tweet = mTweets.get(position);
+//                long in_reply_to_status_id = tweet.uid;
+//                EditText etReply = (EditText) findViewById(R.id.etReply);
 //
-//                    long in_reply_to_status_id = tweet.uid;
-//
-//                    // create intent for the new activity
-//                    Intent intent = new Intent(context, ComposeActivity.class);
-//                    // serialize the movie using parceler, use its short name as a key
-//                    intent.putExtra("reply", true);
-//                    intent.putExtra("username", tweet.user.screenName);
-//                    intent.putExtra("tweet_id", tweet.uid);
-//                    // show the activity
-//                    context.startActivity(intent);
-//                    String message = "Hi";
+//                final String data = etReply.getText().toString();
 //
 //
-//
-//
-//                    client.reply(message, in_reply_to_status_id, new JsonHttpResponseHandler() {
+//                    client.reply(data, in_reply_to_status_id, new JsonHttpResponseHandler() {
 //
 //
 //                        @Override
@@ -268,9 +258,10 @@ public class DetailsActivity extends AppCompatActivity {
 //                            throwable.printStackTrace();
 //                        }
 //                    });
-//                }
+//
 //            }
 //        });
+//
 
 
 

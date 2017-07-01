@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -230,7 +231,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     // serialize the movie using parceler, use its short name as a key
                     intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
                     // show the activity
-                    context.startActivity(intent);
+                    ((Activity) context).startActivityForResult(intent, 3);
                 }
             });
 
