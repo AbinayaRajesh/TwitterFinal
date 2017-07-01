@@ -67,6 +67,11 @@ public class ComposeActivity extends AppCompatActivity {
 
     }
 
+    public void onCancel(View v) {
+        Intent i = new Intent(this, TimelineActivity.class);
+        startActivity(i);
+    }
+
 
     // launched for a result
     public void onSubmit(View v) {

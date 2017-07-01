@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -53,8 +54,7 @@ public class DetailsActivity extends AppCompatActivity {
         tvRetweetCount.setText(tweet.retweet_count+" RETWEETS");
         tvTimeStamp.setText(tweet.timestamp);
         etReply.setHint("Reply to "+ tweet.user.name);
-        final long rc = tweet.retweet_count;
-        final long fc = tweet.favorites_count;
+
 
 
         if(tweet.favorited==true) {
@@ -228,12 +228,8 @@ public class DetailsActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             Log.i("TweetAdapter","heree");
-
-                            Glide.with(context)
-                                    .load(R.drawable.ic_vector_retweet_stroke)
-                                    .into(ivRetweet);
-
-
+                            Intent i = new Intent(context, TimelineActivity.class);
+                            startActivity(i);
                         }
 
 

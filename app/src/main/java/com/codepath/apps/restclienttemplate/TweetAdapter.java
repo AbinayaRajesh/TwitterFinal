@@ -79,10 +79,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
         holder.tvTimeStamp.setText(tweet.timestamp);
-        holder.rc = tweet.retweet_count;
-        holder.tvRetweetCount.setText(String.valueOf(holder.rc));
-        holder.fc = tweet.favorites_count;
-        holder.tvFavoriteCount.setText(String.valueOf(holder.fc));
+        // holder.rc = tweet.retweet_count;
+        holder.tvRetweetCount.setText(String.valueOf(tweet.retweet_count));
+        // holder.fc = tweet.favorites_count;
+        holder.tvFavoriteCount.setText(String.valueOf(tweet.favorites_count));
 
 
         Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
@@ -132,8 +132,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         @BindView(R.id.tvReweetCount) TextView tvRetweetCount;
         @BindView(R.id.tvFavoriteCount) TextView tvFavoriteCount;
         @BindView(R.id.tvUserName) TextView tvUsername;
-        public long fc;
-        public long rc;
+        // public long fc;
+        // public long rc;
 
 
 
@@ -147,7 +147,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     TwitterClient client = TwitterApp.getRestClient();
                     // gets item position
                     int position = getAdapterPosition();
-                    Tweet tweet = mTweets.get(position);
+                    final Tweet tweet = mTweets.get(position);
                     // make sure the position is valid, i.e. actually exists in the view
                     if (position != RecyclerView.NO_POSITION) {
                         // get the movie at the position, this won't work if the class is static
@@ -158,8 +158,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                     Glide.with(context)
                                             .load(R.drawable.ic_vector_retweet)
                                             .into(ivRetweet);
-                                    tvRetweetCount.setText(String.valueOf(rc+1));
-                                    rc+=1;
+                                    tweet.retweet_count+=1;
+                                    tvRetweetCount.setText(String.valueOf(tweet.retweet_count));
                                 }
 
 
@@ -187,8 +187,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                     Glide.with(context)
                                             .load(R.drawable.ic_vector_retweet_stroke)
                                             .into(ivRetweet);
-                                    tvRetweetCount.setText(String.valueOf(rc-1));
-                                    rc-=1;
+                                    tweet.retweet_count-=1;
+                                    tvRetweetCount.setText(String.valueOf(tweet.retweet_count));
                                 }
 
 
@@ -245,7 +245,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
                     // gets item position
                     int position = getAdapterPosition();
-                    Tweet tweet = mTweets.get(position);
+                    final Tweet tweet = mTweets.get(position);
 
                     // make sure the position is valid, i.e. actually exists in the view
                     if (position != RecyclerView.NO_POSITION) {
@@ -260,8 +260,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                     Glide.with(context)
                                             .load(R.drawable.ic_favorite)
                                             .into(ivFavorite);
-                                    tvFavoriteCount.setText(String.valueOf(fc+1));
-                                    fc+=1;
+                                    tweet.favorites_count+=1;
+                                    tvFavoriteCount.setText(String.valueOf(tweet.favorites_count));
                                 }
 
                                 @Override
@@ -277,8 +277,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                     Glide.with(context)
                                             .load(R.drawable.ic_unfavorite)
                                             .into(ivFavorite);
-                                    tvFavoriteCount.setText(String.valueOf(fc-1));
-                                    fc-=1;
+                                    tweet.favorites_count-=1;
+                                    tvFavoriteCount.setText(String.valueOf(tweet.favorites_count));
                                 }
 
                                 @Override
