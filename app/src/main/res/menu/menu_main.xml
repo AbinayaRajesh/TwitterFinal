@@ -13,7 +13,8 @@
         app:actionLayout="@layout/action_view_progress" />
     <item
         android:id="@+id/miCompose"
-        android:icon="@drawable/ic_compose"
+
+        android:icon="@drawable/vector_compose"
         app:showAsAction="ifRoom"
         android:title="Compose"
         android:onClick="onComposeAction">
