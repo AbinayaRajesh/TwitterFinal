@@ -28,6 +28,15 @@ public class EditNameDialogFragment extends DialogFragment {
         return frag;
     }
 
+    public static EditNameDialogFragment newInstance(String title, String screenName) {
+        EditNameDialogFragment frag = new EditNameDialogFragment();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        //args.putString("screenName", srceenName);
+        frag.setArguments(args);
+        return frag;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,4 +56,7 @@ public class EditNameDialogFragment extends DialogFragment {
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
+
+
+
 }
