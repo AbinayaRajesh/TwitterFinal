@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -142,7 +143,21 @@ public class TimelineActivity extends AppCompatActivity {
         // set the adapter
         rvTweets.setAdapter(tweetAdapter);
         populateTimeline();
+        // showEditDialog();
+
     }
+
+    private void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        EditNameDialogFragment editNameDialogFragment = EditNameDialogFragment.newInstance("username");
+        editNameDialogFragment.show(fm, "fragment_edit_name");
+
+        Intent i = new Intent(TimelineActivity.this, ComposeActivity.class);
+        i.putExtra("reply", false);
+        //i.putExtra("username", "abi"); // pass arbitrary data to launched activity
+        startActivityForResult(i, REQUEST_CODE);
+    }
+
 
     // Append the next page of data into the adapter
     // This method probably sends out a network request and appends new data items to your adapter.

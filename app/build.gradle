@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
@@ -8,6 +9,7 @@ android {
         applicationId "com.codepath.apps.restclienttemplate"
         minSdkVersion 17
         targetSdkVersion 25
+        vectorDrawables.useSupportLibrary = true
     }
 
     // Related to https://github.com/scribejava/scribejava/issues/480
@@ -50,4 +52,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'org.parceler:parceler:1.1.6'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile "com.android.support:support-vector-drawable:${1.0}" // VectorDrawableCompat
+    compile "com.android.support:animated-vector-drawable:${1.0}" // AnimatedVectorDrawableCompat
+
 }

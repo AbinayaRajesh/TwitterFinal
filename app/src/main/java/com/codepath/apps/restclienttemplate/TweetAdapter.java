@@ -88,7 +88,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
 
         if(tweet.favorited==true) {
-
             holder.ivFavorite.setImageResource(R.drawable.ic_favorite);
         }
         else{
@@ -132,9 +131,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         @BindView(R.id.tvReweetCount) TextView tvRetweetCount;
         @BindView(R.id.tvFavoriteCount) TextView tvFavoriteCount;
         @BindView(R.id.tvUserName) TextView tvUsername;
-        // public long fc;
-        // public long rc;
-
 
 
         public ViewHolder(View itemView) {
@@ -155,9 +151,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                             client.reTweet(tweet.uid, new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    Glide.with(context)
-                                            .load(R.drawable.ic_vector_retweet)
-                                            .into(ivRetweet);
+                                    ivRetweet.setImageResource(R.drawable.ic_vector_retweet);
                                     tweet.retweet_count+=1;
                                     tvRetweetCount.setText(String.valueOf(tweet.retweet_count));
                                 }
@@ -184,9 +178,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                             client.unRetweet(tweet.uid, new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    Glide.with(context)
-                                            .load(R.drawable.ic_vector_retweet_stroke)
-                                            .into(ivRetweet);
+                                    ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
                                     tweet.retweet_count-=1;
                                     tvRetweetCount.setText(String.valueOf(tweet.retweet_count));
                                 }
@@ -257,9 +249,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                             client.addFavorite(tweet.uid, new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    Glide.with(context)
-                                            .load(R.drawable.ic_favorite)
-                                            .into(ivFavorite);
+                                    ivFavorite.setImageResource(R.drawable.ic_favorite);
                                     tweet.favorites_count+=1;
                                     tvFavoriteCount.setText(String.valueOf(tweet.favorites_count));
                                 }
@@ -274,9 +264,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                             client.unFavorite(tweet.uid, new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    Glide.with(context)
-                                            .load(R.drawable.ic_unfavorite)
-                                            .into(ivFavorite);
+                                    ivFavorite.setImageResource(R.drawable.ic_unfavorite);
                                     tweet.favorites_count-=1;
                                     tvFavoriteCount.setText(String.valueOf(tweet.favorites_count));
                                 }
@@ -327,12 +315,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                 Log.i("TweetAdapter","heree");
-
-                                Glide.with(context)
-                                        .load(R.drawable.ic_vector_retweet_stroke)
-                                        .into(ivRetweet);
-
-
+                                ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
                                 }
 
 

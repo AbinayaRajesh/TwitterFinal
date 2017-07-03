@@ -59,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:onClick="reply"
-            android:src="@drawable/ic_reply"
+            app:srcCompat="@drawable/ic_reply"
             android:layout_weight="3" />
 
         <ImageView
@@ -85,7 +85,7 @@
             android:layout_height="32dp"
             android:onClick="favorite"
             android:layout_weight="2"
-            android:src="@drawable/ic_unfavorite" />
+            app:srcCompat="@drawable/ic_favorite" />
 
         <TextView
             android:id="@+id/tvFavoriteCount"

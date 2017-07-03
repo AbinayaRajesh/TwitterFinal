@@ -90,15 +90,14 @@
             android:id="@+id/ivReply"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:background="@drawable/ic_reply"
             android:layout_margin="30dp"
+            app:srcCompat="@drawable/ic_reply"
             android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/ivRetweet"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:background="@drawable/ic_vector_retweet"
             android:layout_margin="30dp"
             android:layout_weight="1"/>
 
@@ -107,8 +106,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_margin="30dp"
-            android:layout_weight="1"
-            android:background="@drawable/ic_unfavorite" />
+            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/ivShare"
@@ -116,7 +114,7 @@
             android:layout_height="32dp"
             android:layout_margin="30dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_share" />
+            app:srcCompat="@drawable/ic_share" />
 
     </LinearLayout>
 

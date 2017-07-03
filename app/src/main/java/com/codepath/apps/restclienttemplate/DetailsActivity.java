@@ -61,9 +61,6 @@ public class DetailsActivity extends AppCompatActivity {
 
             ivFavorite.setImageResource(R.drawable.ic_favorite);
 
-            Glide.with(context)
-                    .load(R.drawable.ic_favorite)
-                    .into(ivFavorite);
         }
         else{
             ivFavorite.setImageResource(R.drawable.ic_unfavorite);
@@ -102,7 +99,7 @@ public class DetailsActivity extends AppCompatActivity {
                         client.reTweet(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                ivRetweet.setBackground(context.getResources().getDrawable(R.drawable.ic_vector_retweet));
+                                ivRetweet.setImageResource(R.drawable.ic_vector_retweet);
                                 tweet.retweet_count+=1;
                                 tvRetweetCount.setText(String.valueOf(tweet.retweet_count)+" RETWEETS");
                                 tweet.reTweeted = true;
@@ -130,7 +127,7 @@ public class DetailsActivity extends AppCompatActivity {
                         client.unRetweet(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                ivRetweet.setBackground(context.getResources().getDrawable(R.drawable.ic_vector_retweet_stroke));
+                                ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
                                 tweet.retweet_count-=1;
                                 tvRetweetCount.setText(String.valueOf(tweet.retweet_count)+" RETWEETS");
                                 tweet.reTweeted = false;
@@ -172,7 +169,7 @@ public class DetailsActivity extends AppCompatActivity {
                         client.addFavorite(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                ivFavorite.setBackground(context.getResources().getDrawable(R.drawable.ic_favorite));
+                                ivFavorite.setImageResource(R.drawable.ic_favorite);
                                 tweet.favorites_count+=1;
                                 tvFavoriteCount.setText(String.valueOf(tweet.favorites_count)+" FAVORITES");
                                 tweet.favorited=true;
@@ -188,7 +185,7 @@ public class DetailsActivity extends AppCompatActivity {
                         client.unFavorite(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                ivFavorite.setBackground(context.getResources().getDrawable(R.drawable.ic_unfavorite));
+                                ivFavorite.setImageResource(R.drawable.ic_unfavorite);
                                 tweet.favorites_count-=1;
                                 tvFavoriteCount.setText(String.valueOf(tweet.favorites_count)+" FAVORITES");
                                 tweet.favorited=false;
