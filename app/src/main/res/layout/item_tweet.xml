@@ -68,7 +68,7 @@
             android:layout_height="32dp"
             android:onClick="reTweet"
             android:layout_gravity="left"
-            android:src="@drawable/ic_vector_retweet_stroke"
+            app:srcCompat="@drawable/ic_vector_retweet_stroke"
             android:layout_weight="2"/>
 
         <TextView
@@ -102,7 +102,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout"
-        android:src="@drawable/ic_reply"
+        app:srcCompat="@drawable/ic_reply"
         android:id="@+id/ivImg"/>
 
 </RelativeLayout>

@@ -53,7 +53,6 @@ public class Tweet {
         }
 
 
-
         if(jsonObject.isNull("in_reply_to_status_id")) {
             tweet.in_reply_to_status_id=0;
         }

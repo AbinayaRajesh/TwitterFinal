@@ -18,6 +18,7 @@ android {
         lintConfig rootProject.file('gradle/lint.xml')
     }
 
+
     buildTypes {
         release {
             minifyEnabled false
@@ -29,6 +30,7 @@ android {
 repositories {
     jcenter()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://jitpack.io" }
 }
 
 def dbflow_version = "4.0.3"
@@ -37,11 +39,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     // Glide for remote image loading
     // Android Async Http for sending async network requests
-    // DBFlow for simple persistence with an ORM
-    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-
     compile 'com.codepath.libraries:android-oauth-handler:1.2.4'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.github.bumptech.glide:glide:3.8.0'
@@ -54,5 +51,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile "com.android.support:support-vector-drawable:${1.0}" // VectorDrawableCompat
     compile "com.android.support:animated-vector-drawable:${1.0}" // AnimatedVectorDrawableCompat
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
 
 }

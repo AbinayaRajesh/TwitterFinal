@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -89,16 +90,20 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         if(tweet.favorited==true) {
             holder.ivFavorite.setImageResource(R.drawable.ic_favorite);
+            holder.tvFavoriteCount.setTextColor(ContextCompat.getColor(context, R.color.inline_action_like));
         }
         else{
             holder.ivFavorite.setImageResource(R.drawable.ic_unfavorite);
+            holder.tvFavoriteCount.setTextColor(ContextCompat.getColor(context, R.color.medium_gray));
         }
 
         if(tweet.reTweeted==true) {
             holder.ivRetweet.setImageResource(R.drawable.ic_vector_retweet);
+            holder.tvRetweetCount.setTextColor(ContextCompat.getColor(context, R.color.inline_action_retweet));
         }
         else{
             holder.ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+            holder.tvRetweetCount.setTextColor(ContextCompat.getColor(context, R.color.medium_gray));
         }
 
         if(tweet.url=="") {
@@ -152,6 +157,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     ivRetweet.setImageResource(R.drawable.ic_vector_retweet);
+                                    tvRetweetCount.setTextColor(ContextCompat.getColor(context, R.color.inline_action_retweet));
                                     tweet.retweet_count+=1;
                                     tvRetweetCount.setText(String.valueOf(tweet.retweet_count));
                                 }
@@ -179,6 +185,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                                    tvRetweetCount.setTextColor(ContextCompat.getColor(context, R.color.medium_gray));
                                     tweet.retweet_count-=1;
                                     tvRetweetCount.setText(String.valueOf(tweet.retweet_count));
                                 }
@@ -250,6 +257,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     ivFavorite.setImageResource(R.drawable.ic_favorite);
+                                    tvFavoriteCount.setTextColor(ContextCompat.getColor(context, R.color.inline_action_like));
                                     tweet.favorites_count+=1;
                                     tvFavoriteCount.setText(String.valueOf(tweet.favorites_count));
                                 }
@@ -265,6 +273,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                     ivFavorite.setImageResource(R.drawable.ic_unfavorite);
+                                    tvFavoriteCount.setTextColor(ContextCompat.getColor(context, R.color.medium_gray));
                                     tweet.favorites_count-=1;
                                     tvFavoriteCount.setText(String.valueOf(tweet.favorites_count));
                                 }
