@@ -17,6 +17,9 @@ public class User {
     public String screenName;
     public String profileImageUrl;
     public long favorites_count;
+    public String tagLine;
+    public int followingCount;
+    public int followersCount;
 
     public User() {}
 
@@ -30,6 +33,9 @@ public class User {
         user.screenName = json.getString("screen_name");
         user.profileImageUrl = json.getString("profile_image_url");
         //user.favorites_count = json.getLong("favourites_count");
+        user.tagLine = json.getString("description");
+        user.followersCount = json.getInt("followers_count");
+        user.followingCount = json.getInt("friends_count");
 
         return user;
 
