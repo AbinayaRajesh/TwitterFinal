@@ -161,7 +161,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
         @BindView(R.id.ivFavorite) ImageView ivFavorite;
         @BindView(R.id.ivReply) ImageView ivReply;
-        @BindView(R.id.reTweet) ImageView ivRetweet;
+        @BindView(R.id.ivRetweet) ImageView ivRetweet;
         @BindView(R.id.ivImg) ImageView ivImg;
         @BindView(R.id.tvBody) TextView tvBody;
         @BindView(R.id.tvTimeStamp) TextView tvTimeStamp;

@@ -63,7 +63,7 @@
             android:layout_weight="3" />
 
         <ImageView
-            android:id="@+id/reTweet"
+            android:id="@+id/ivRetweet"
             android:layout_width="0dp"
             android:layout_height="32dp"
 
