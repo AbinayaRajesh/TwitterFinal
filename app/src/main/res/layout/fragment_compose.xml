@@ -11,8 +11,8 @@
         android:id="@+id/cancel_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onCancel"
         android:background="@color/twitter_blue"
+        android:textColor="@android:color/white"
         android:text="CANCEL" />
 
     <Button
@@ -20,7 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:onClick="onSubmit"
         android:background="@color/twitter_blue"
         android:textColor="@android:color/white"
         android:text="TWEET" />

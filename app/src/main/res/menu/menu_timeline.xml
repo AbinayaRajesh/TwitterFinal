@@ -11,4 +11,12 @@
         android:onClick="onProfileView"
         android:title="Item"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/miCompose"
+        android:icon="@drawable/vector_compose"
+        android:onClick="onCompose"
+        android:title="Item"
+        app:showAsAction="ifRoom" />
+
 </menu>

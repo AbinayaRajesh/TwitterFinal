@@ -347,8 +347,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
                                     @Override
                                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                        Log.i("TweetAdapter","heree");
-                                        ivRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+
+
+
+
                                     }
 
 

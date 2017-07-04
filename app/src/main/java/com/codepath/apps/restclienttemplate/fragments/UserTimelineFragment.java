@@ -20,6 +20,7 @@ import cz.msebera.android.httpclient.Header;
 public class UserTimelineFragment extends TweetsListFragment {
 
     TwitterClient client;
+    public int REQUEST_CODE = 20;
 
     public static UserTimelineFragment newInstance(String screenName) {
         UserTimelineFragment userTimelineFragment = new UserTimelineFragment();
@@ -75,5 +76,7 @@ public class UserTimelineFragment extends TweetsListFragment {
         });
 
     }
+
+
 
 }

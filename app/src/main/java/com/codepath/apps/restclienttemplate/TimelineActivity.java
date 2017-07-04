@@ -8,15 +8,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.codepath.apps.restclienttemplate.fragments.ComposeDialogFragment;
 import com.codepath.apps.restclienttemplate.fragments.TweetsListFragment;
 import com.codepath.apps.restclienttemplate.fragments.TweetsPagerAdapter;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import butterknife.ButterKnife;
 
-public class TimelineActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener{
+public class TimelineActivity extends AppCompatActivity implements ComposeDialogFragment.ComposeDialogListener {
+    // implements TweetsListFragment.TweetSelectedListener
 
 
     //TweetsListFragment fragmentTweetsList;
@@ -38,6 +39,7 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
 
         //fragmentTweetsList = (TweetsListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_timeline);
         ButterKnife.bind(this);
+
 
 
         // Lookup the swipe container view
@@ -74,6 +76,8 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_timeline, menu);
@@ -82,8 +86,8 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
 
     private void showEditDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        EditNameDialogFragment editNameDialogFragment = EditNameDialogFragment.newInstance("username");
-        editNameDialogFragment.show(fm, "fragment_edit_name");
+        ComposeDialogFragment composeDialogFragment = ComposeDialogFragment.newInstance("username");
+        composeDialogFragment.show(fm, "fragment_edit_name");
 
     }
 
@@ -94,10 +98,14 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
         startActivity(i);
     }
 
+    public void onCompose(MenuItem item) {
+        showEditDialog();
+    }
+
 
     @Override
-    public void onTweetSelected(Tweet tweet) {
-        Toast.makeText(this, tweet.body, Toast.LENGTH_SHORT).show();
+    public void onFinishedTweet(Tweet tweet) {
+        // Toast.makeText(this, tweet.body, Toast.LENGTH_SHORT).show();
     }
 
     // Append the next page of data into the adapter
