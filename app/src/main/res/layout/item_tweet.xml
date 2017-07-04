@@ -58,7 +58,7 @@
             android:id="@+id/ivReply"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:onClick="reply"
+
             app:srcCompat="@drawable/ic_reply"
             android:layout_weight="3" />
 
@@ -66,7 +66,7 @@
             android:id="@+id/reTweet"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:onClick="reTweet"
+
             android:layout_gravity="left"
             app:srcCompat="@drawable/ic_vector_retweet_stroke"
             android:layout_weight="2"/>
@@ -83,7 +83,6 @@
             android:id="@+id/ivFavorite"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:onClick="favorite"
             android:layout_weight="2"
             app:srcCompat="@drawable/ic_favorite" />
 

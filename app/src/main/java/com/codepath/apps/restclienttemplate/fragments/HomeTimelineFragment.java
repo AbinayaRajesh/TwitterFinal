@@ -76,7 +76,6 @@ public class HomeTimelineFragment extends TweetsListFragment {
 
 
 
-
     public void fetchTimelineAsync() {
         //long Id = tweets.get(tweets.size()-1).uid;
         // Send the network request to fetch the updated data

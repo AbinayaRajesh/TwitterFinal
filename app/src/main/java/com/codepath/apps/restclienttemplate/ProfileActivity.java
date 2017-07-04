@@ -25,7 +25,9 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        String screenName = getIntent().getStringExtra("screen_name");
+        final String screenName = getIntent().getStringExtra("screen_name");
+        int uid = getIntent().getIntExtra("uid", 0);
+        boolean profile = getIntent().getBooleanExtra("profile", false);
 
         // create the user fragment
         UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(screenName);
@@ -37,26 +39,53 @@ public class ProfileActivity extends AppCompatActivity {
         ft.replace(R.id.flContainer, userTimelineFragment);
         // commit
         ft.commit();
-
         client = TwitterApp.getRestClient();
-        client.getUserInfo(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // deserialize the User object
 
-                try {
-                    User user = User.fromJSON(response);
+        if (profile == false) {
 
-                    // set the title of the ActionBar based on the user information
-                    getSupportActionBar().setTitle(user.screenName);
-                    // populate the user headline
-                    populateUserHeadline(user);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            client.getUserInfo(new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    // deserialize the User object
+
+                    try {
+                        User user = User.fromJSON(response);
+
+                        // set the title of the ActionBar based on the user information
+                        getSupportActionBar().setTitle(user.screenName);
+                        // populate the user headline
+                        populateUserHeadline(user);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {
+            client.getProfileInfo(screenName, uid, new JsonHttpResponseHandler() {
+
+
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                    try {
+                        User user = User.fromJSON(response);
+                        // set the title of the ActionBar based on the user information
+                        getSupportActionBar().setTitle(screenName);
+                        // populate the user headline
+                        populateUserHeadline(user);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            });
+        }
 
 
     }

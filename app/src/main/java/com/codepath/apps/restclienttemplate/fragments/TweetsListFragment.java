@@ -90,4 +90,6 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
         // Toast.makeText(getContext(), tweet.body, Toast.LENGTH_SHORT).show();
         ((TweetSelectedListener) getActivity()).onTweetSelected(tweet);
     }
+
+
 }

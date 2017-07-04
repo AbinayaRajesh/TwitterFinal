@@ -90,8 +90,10 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
     public void onProfileView(MenuItem item) {
         // launch the profile view
         Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("profile",false);
         startActivity(i);
     }
+
 
     @Override
     public void onTweetSelected(Tweet tweet) {
