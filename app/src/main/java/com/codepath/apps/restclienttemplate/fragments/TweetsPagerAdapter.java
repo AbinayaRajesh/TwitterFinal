@@ -14,6 +14,7 @@ public class TweetsPagerAdapter extends FragmentPagerAdapter {
 
     private String tabTitles[] = new String[] {"Home", "Mentions"};
     private Context context;
+    FragmentManager fm;
 
     private HomeTimelineFragment timelineFragment;
     private MentionsTimelineFragment mentionsFragment;
@@ -21,7 +22,10 @@ public class TweetsPagerAdapter extends FragmentPagerAdapter {
     public TweetsPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         timelineFragment = new HomeTimelineFragment();
+        timelineFragment.setFm(fm);
         mentionsFragment = new MentionsTimelineFragment();
+        mentionsFragment.setFm(fm);
+        this.fm = fm;
         this.context = context;
     }
 
@@ -56,6 +60,7 @@ public class TweetsPagerAdapter extends FragmentPagerAdapter {
         return timelineFragment;
 
     }
+
 
     public MentionsTimelineFragment getMentionsInstance(){
         if (mentionsFragment == null) {

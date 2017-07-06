@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.fragments.ComposeDialogFragment;
+import com.codepath.apps.restclienttemplate.fragments.TweetsPagerAdapter;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -39,6 +41,8 @@ import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
+
+
     TwitterClient client = TwitterApp.getRestClient();
     // Context context;
     FragmentManager fm;
@@ -56,6 +60,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     Context context;
     ViewGroup mParent;
     private TweetAdapterListener mListener;
+    TweetsPagerAdapter adapter;
+
+
 
 
     // define an interface required by the ViewHolder
@@ -74,7 +81,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
 
     // pass in the Tweets array in the constructor
-    public TweetAdapter(List<Tweet> tweets, TweetAdapterListener listener) {
+    public TweetAdapter(FragmentManager fm, List<Tweet> tweets, TweetAdapterListener listener) {
+
+        setFm(fm);
 
         mTweets = tweets;
         mListener = listener;
@@ -87,9 +96,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         context = parent.getContext();
         mParent = parent;
         LayoutInflater inflater = LayoutInflater.from(context);
+        // fm = ((Activity) context)).getFragmentManager();;
 
         View tweetView = inflater.inflate(R.layout.item_tweet, parent, false);
         ViewHolder viewHolder = new ViewHolder(tweetView);
+
 
         return viewHolder;
     }
@@ -161,6 +172,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         return relativeDate;
     }
+
+
+
+
 
 
 
@@ -341,52 +356,54 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 }
                 else if (v.getId() == R.id.ivReply){
 
-                                long in_reply_to_status_id = tweet.uid;
 
-                                // create intent for the new activity
-                                Intent intent = new Intent(context, ComposeActivity.class);
-                                // serialize the movie using parceler, use its short name as a key
-                                intent.putExtra("reply", true);
-                                intent.putExtra("username", tweet.user.screenName);
-                                intent.putExtra("tweet_id", tweet.uid);
-                                // show the activity
-                                context.startActivity(intent);
-                                String message = "Hi";
+                    ComposeDialogFragment composeDialogFragment = ComposeDialogFragment.newInstance("Replying to " + tweet.user.name,
+                            tweet.user.screenName, tweet.uid);
 
+                    composeDialogFragment.show(fm, "fragment_compose");
 
-
-
-                                client.reply(message, in_reply_to_status_id, new JsonHttpResponseHandler() {
-
-
-                                    @Override
-                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-
-
-
-                                    }
-
-
-
-                                    @Override
-                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                        Log.d("TwitterClient", responseString);
-                                        throwable.printStackTrace();
-                                    }
-
-                                    @Override
-                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                        Log.d("TwitterClient", errorResponse.toString());
-                                        throwable.printStackTrace();
-                                    }
-
-                                    @Override
-                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                                        Log.d("TwitterClient", errorResponse.toString());
-                                        throwable.printStackTrace();
-                                    }
-                                });
+//                                long in_reply_to_status_id = tweet.uid;
+//
+//                                // create intent for the new activity
+//                                Intent intent = new Intent(context, ComposeActivity.class);
+//                                // serialize the movie using parceler, use its short name as a key
+//                                intent.putExtra("reply", true);
+//                                intent.putExtra("username", tweet.user.screenName);
+//                                intent.putExtra("tweet_id", tweet.uid);
+//                                // show the activity
+//                                context.startActivity(intent);
+//                                String message = "Hi";
+//                                client.reply(message, in_reply_to_status_id, new JsonHttpResponseHandler() {
+//
+//
+//                                    @Override
+//                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//
+//
+//
+//
+//                                    }
+//
+//
+//
+//                                    @Override
+//                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                                        Log.d("TwitterClient", responseString);
+//                                        throwable.printStackTrace();
+//                                    }
+//
+//                                    @Override
+//                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                                        Log.d("TwitterClient", errorResponse.toString());
+//                                        throwable.printStackTrace();
+//                                    }
+//
+//                                    @Override
+//                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+//                                        Log.d("TwitterClient", errorResponse.toString());
+//                                        throwable.printStackTrace();
+//                                    }
+//                                });
 
 
 

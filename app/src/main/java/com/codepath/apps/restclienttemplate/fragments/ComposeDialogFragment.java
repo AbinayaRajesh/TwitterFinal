@@ -76,6 +76,7 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
         client = TwitterApp.getRestClient();
         btSubmit.setOnClickListener(this);
         btCancel.setOnClickListener(this);
+        // title = getArguments().getString("title");
         userId = getArguments().getString("screenName");
 
         // Fetch arguments from bundle and set title
@@ -131,7 +132,7 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
             } else {
 
 
-                client.reply(userId + " " + data, tweet_id, (new JsonHttpResponseHandler() {
+                client.reply("@" + userId + " " + data, tweet_id, (new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         // Intent intent = new Intent();

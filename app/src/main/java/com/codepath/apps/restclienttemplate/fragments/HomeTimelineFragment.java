@@ -2,13 +2,16 @@ package com.codepath.apps.restclienttemplate.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.codepath.apps.restclienttemplate.TwitterApp;
 import com.codepath.apps.restclienttemplate.TwitterClient;
+import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
@@ -19,9 +22,15 @@ import cz.msebera.android.httpclient.Header;
 
 public class HomeTimelineFragment extends TweetsListFragment {
 
+    // FragmentManager fm;
 
 
-    // Instance of the progress action-view
+
+
+    public void setFm(FragmentManager fm) {
+        this.fm = fm;
+    }
+// Instance of the progress action-view
     // MenuItem miActionProgressItem;
 
 
@@ -62,11 +71,11 @@ public class HomeTimelineFragment extends TweetsListFragment {
 //    }
 
 
-
     // private SwipeRefreshLayout swipeContainer;
     // TextView tvBody = (TextView) findViewById(R.id.tvBody);
-
+    // public SwipeRefreshLayout swipeContainer;
     TwitterClient client;
+    TweetsListFragment frag;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +83,11 @@ public class HomeTimelineFragment extends TweetsListFragment {
         client = TwitterApp.getRestClient();
 
         populateTimeline();
+        TweetsListFragment frag = ((TweetsListFragment)this.getParentFragment());
+        this.fm = fm;
+        // swipeContainer = frag.swipeContainer;
+
+
 
     }
 
@@ -89,24 +103,24 @@ public class HomeTimelineFragment extends TweetsListFragment {
         client.getHomeTimelineFirst( new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
                 // hideProgressBar();
-                addItems(response);
-//                tweetAdapter.clear();
-//
-//                for (int i = 0; i < json.length(); i++) {
-//                    Tweet tweet = null;
-//                    try {
-//                        tweet = Tweet.fromJSON(json.getJSONObject(i));
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    tweets.add(tweet);
-//                    tweetAdapter.notifyItemInserted(tweets.size() - 1);
-//                }
-//
-//                // Now we call setRefreshing(false) to signal refresh has finished
-//                swipeContainer.setRefreshing(false);
+                addItems(json);
+                tweetAdapter.clear();
+
+                for (int i = 0; i < json.length(); i++) {
+                    Tweet tweet = null;
+                    try {
+                        tweet = Tweet.fromJSON(json.getJSONObject(i));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    tweets.add(tweet);
+                    tweetAdapter.notifyItemInserted(tweets.size() - 1);
+                }
+
+                // Now we call setRefreshing(false) to signal refresh has finished
+                swipeContainer.setRefreshing(false);
             }
 
             public void onFailure(Throwable e) {

@@ -15,7 +15,6 @@ import android.view.MenuItem;
 
 import com.codepath.apps.restclienttemplate.fragments.ComposeDialogFragment;
 import com.codepath.apps.restclienttemplate.fragments.DetailsDialogFragment;
-import com.codepath.apps.restclienttemplate.fragments.TweetsListFragment;
 import com.codepath.apps.restclienttemplate.fragments.TweetsPagerAdapter;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -43,6 +42,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,38 +67,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         // ComposeDialogFragment.DismissListner(closeListener);
 
 
-
-
-
-
-        // Lookup the swipe container view
-
-        // swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
-//        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                // Your code to refresh the list here.
-//                // Make sure you call swipeContainer.setRefreshing(false)
-//                // once the network request has completed successfully.
-//                fetchTimelineAsync();
-//            }
-//        });
-//        // Configure the refreshing colors
-//        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-//                android.R.color.holo_green_light,
-//                android.R.color.holo_orange_light,
-//                android.R.color.holo_red_light);
-
-
-        // Find the toolbar view inside the activity layout
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // Sets the Toolbar to act as the ActionBar for this Activity window.
-        // Make sure the toolbar exists in the activity and is not null
-        // setSupportActionBar(toolbar);
-
-
-        TweetsListFragment fragmentTweetsList;
+        // TweetsListFragment fragmentTweetsList;
 
     }
 

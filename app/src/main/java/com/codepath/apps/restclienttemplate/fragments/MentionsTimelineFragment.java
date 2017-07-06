@@ -2,13 +2,16 @@ package com.codepath.apps.restclienttemplate.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.codepath.apps.restclienttemplate.TwitterApp;
 import com.codepath.apps.restclienttemplate.TwitterClient;
+import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
@@ -19,7 +22,14 @@ import cz.msebera.android.httpclient.Header;
 
 public class MentionsTimelineFragment extends TweetsListFragment {
 
+    FragmentManager fm;
 
+    public void setFm(FragmentManager fm) {
+        this.fm = fm;
+    }
+
+
+    // private SwipeRefreshLayout swipeContainer;
     TwitterClient client;
 
     @Override
@@ -27,7 +37,61 @@ public class MentionsTimelineFragment extends TweetsListFragment {
         super.onCreate(savedInstanceState);
         client = TwitterApp.getRestClient();
         populateTimeline();
+//
+//        swipeContainer = (SwipeRefreshLayout) v.findViewById(swipeContainer);
+//        // Setup refresh listener which triggers new data loading
+//        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                // Your code to refresh the list here.
+//                // Make sure you call swipeContainer.setRefreshing(false)
+//                // once the network request has completed successfully.
+//                fetchTimelineAsync();
+//            }
+//        });
+//        // Configure the refreshing colors
+//        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+//                android.R.color.holo_green_light,
+//                android.R.color.holo_orange_light,
+//                android.R.color.holo_red_light);
 
+
+    }
+
+    public void fetchTimelineAsync() {
+        //long Id = tweets.get(tweets.size()-1).uid;
+        // Send the network request to fetch the updated data
+        // `client` here is an instance of Android Async HTTP
+        // getHomeTimeline is an example endpoint.
+        // showProgressBar();
+
+        client.getMentionsTimeline(new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                    // hideProgressBar();
+                    tweetAdapter.clear();
+
+                    for (int i = 0; i < json.length(); i++) {
+                        Tweet tweet = null;
+                        try {
+                            tweet = Tweet.fromJSON(json.getJSONObject(i));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        tweets.add(tweet);
+                        tweetAdapter.notifyItemInserted(tweets.size() - 1);
+                    }
+
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    swipeContainer.setRefreshing(false);
+                }
+
+                public void onFailure(Throwable e) {
+                    // hideProgressBar();
+                    Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+                }
+            });
     }
 
 
