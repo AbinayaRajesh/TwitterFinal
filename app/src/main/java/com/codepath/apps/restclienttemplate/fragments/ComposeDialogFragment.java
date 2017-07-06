@@ -35,7 +35,6 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
     boolean reply;
     String userId;
 
-
     public ComposeDialogFragment() {}
 
     public interface ComposeDialogListener {
@@ -98,11 +97,6 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
 
         etTweet.addTextChangedListener(mTextEditorWatcher);
 
-
-        // Show soft keyboard automatically and request focus to field
-//        etTweet.requestFocus();
-//        getDialog().getWindow().setSoftInputMode(
-//                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
 
@@ -152,6 +146,8 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
                         ComposeDialogListener listener = (ComposeDialogListener) getActivity();
                         listener.onFinishedTweet(tweet);
                         dismiss();
+//                        Intent i = new Intent(this, TimelineActivity.class);
+//                        startActivity(i);
                         return;
                     }
                 }));

@@ -26,7 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         final String screenName = getIntent().getStringExtra("screen_name");
-        int uid = getIntent().getIntExtra("uid", 0);
+        long uid = getIntent().getIntExtra("uid", 0);
         boolean profile = getIntent().getBooleanExtra("profile", false);
 
         // create the user fragment

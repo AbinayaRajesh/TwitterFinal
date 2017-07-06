@@ -19,6 +19,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class HomeTimelineFragment extends TweetsListFragment {
 
+
+
     // Instance of the progress action-view
     // MenuItem miActionProgressItem;
 
@@ -70,6 +72,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApp.getRestClient();
+
         populateTimeline();
 
     }

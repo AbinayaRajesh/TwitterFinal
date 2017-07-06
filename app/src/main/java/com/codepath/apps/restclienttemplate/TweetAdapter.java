@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -39,6 +40,13 @@ import static com.loopj.android.http.AsyncHttpClient.log;
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
     TwitterClient client = TwitterApp.getRestClient();
+    // Context context;
+    FragmentManager fm;
+
+
+    public void setFm (FragmentManager fm) {
+        this.fm = fm;
+    }
 
 
 
@@ -46,6 +54,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     public List<Tweet> mTweets;
     Context context;
+    ViewGroup mParent;
     private TweetAdapterListener mListener;
 
 
@@ -62,6 +71,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+
+
     // pass in the Tweets array in the constructor
     public TweetAdapter(List<Tweet> tweets, TweetAdapterListener listener) {
 
@@ -74,6 +85,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
+        mParent = parent;
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View tweetView = inflater.inflate(R.layout.item_tweet, parent, false);
@@ -149,6 +161,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         return relativeDate;
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -379,9 +393,19 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
                 }
                 else if (v.getId() == R.id.tvBody){
+//        FragmentManager fm = getSupportFragmentManager();
+//        DetailsDialogFragment detailsDialogFragment = DetailsDialogFragment.newInstance("username");
+//        detailsDialogFragment.show(fm, "fragment_edit_name");
+
+//                    DetailsDialogFragment detailsDialogFragment = DetailsDialogFragment.newInstance(tweet);
+//                    DetailsDialogFragment.fragmentManager = fm;
+//                    DetailsDialogFragment.tweetAdapter= (TweetAdapter) ((RecyclerView) itemView.getParent()).getAdapter();
+//                    DetailsDialogFragment.position = getAdapterPosition();
+//                    detailsDialogFragment.show(fm, "fragment_details");
 
 
-
+//
+//
                     // create intent for the new activity
                     Intent intent = new Intent(context, DetailsActivity.class);
                     // serialize the movie using parceler, use its short name as a key
@@ -411,7 +435,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 }
 
             }
+
         }
+
+
+
 }
 
 

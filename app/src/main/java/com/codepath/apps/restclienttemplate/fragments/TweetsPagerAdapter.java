@@ -15,8 +15,13 @@ public class TweetsPagerAdapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[] {"Home", "Mentions"};
     private Context context;
 
+    private HomeTimelineFragment timelineFragment;
+    private MentionsTimelineFragment mentionsFragment;
+
     public TweetsPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        timelineFragment = new HomeTimelineFragment();
+        mentionsFragment = new MentionsTimelineFragment();
         this.context = context;
     }
 
@@ -34,14 +39,31 @@ public class TweetsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Log.d("position", String.valueOf(position));
         if (position == 0){
-            return new HomeTimelineFragment();
+            timelineFragment = getTimelineInstance();
+            return timelineFragment;
         } else if (position == 1) {
-            return new MentionsTimelineFragment();
+            mentionsFragment = getMentionsInstance();
+            return mentionsFragment;
         } else {
             return null;
         }
     }
 
+    public HomeTimelineFragment getTimelineInstance(){
+        if (timelineFragment == null) {
+            timelineFragment = new HomeTimelineFragment();
+        }
+        return timelineFragment;
+
+    }
+
+    public MentionsTimelineFragment getMentionsInstance(){
+        if (mentionsFragment == null) {
+            mentionsFragment = new MentionsTimelineFragment();
+        }
+        return mentionsFragment;
+
+    }
 
     // return title
 

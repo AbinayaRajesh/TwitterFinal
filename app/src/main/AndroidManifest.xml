@@ -31,12 +31,16 @@
                 <data
                     android:host="@string/intent_host"
                     android:scheme="@string/intent_scheme" />
+                <meta-data android:name="android.app.searchable"
+                    android:resource="@xml/searchable" />
             </intent-filter>
         </activity>
         <activity android:name=".TimelineActivity" />
         <activity android:name=".ComposeActivity" />
         <activity android:name=".DetailsActivity" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity">
+
+        </activity>
     </application>
 
 </manifest>
