@@ -3,7 +3,9 @@ package com.codepath.apps.restclienttemplate;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -11,14 +13,20 @@ import com.codepath.apps.restclienttemplate.fragments.UserTimelineFragment;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
 public class ProfileActivity extends AppCompatActivity {
 
     TwitterClient client;
+    ArrayList<String> followers = new ArrayList<String>();
+    ArrayList<String> following = new ArrayList<String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +70,62 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            client.followersMe( new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        JSONArray users = response.getJSONArray("users");
+                        User user;
+                        for (int i = 0; i < users.length(); i++){
+                            user =  User.fromJSON(users.getJSONObject(i));
+                            followers.add(user.screenName);
+                        }
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                    }
+
+
+                    Spinner s = (Spinner) findViewById(R.id.followers_spinner);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ProfileActivity.this, android.R.layout.simple_spinner_item, followers);
+                    s.setAdapter(adapter);
+                }
+
+
+            });
+
+
+            client.followingMe( new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        JSONArray users = response.getJSONArray("users");
+                        User user;
+                        for (int i = 0; i < users.length(); i++){
+                            user =  User.fromJSON(users.getJSONObject(i));
+                            following.add(user.screenName);
+                        }
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                    }
+
+
+                    Spinner s = (Spinner) findViewById(R.id.following_spinner);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ProfileActivity.this, android.R.layout.simple_spinner_item, following);
+                    s.setAdapter(adapter);
+                }
+
+
+            });
+
+
         }
         else {
             client.getProfileInfo(screenName, uid, new JsonHttpResponseHandler() {
-
-
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -85,7 +144,60 @@ public class ProfileActivity extends AppCompatActivity {
                 }
 
             });
+
+            client.followers(screenName, new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        JSONArray users = response.getJSONArray("users");
+                        User user;
+                        for (int i = 0; i < users.length(); i++){
+                            user =  User.fromJSON(users.getJSONObject(i));
+                            followers.add(user.screenName);
+                        }
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                    }
+
+
+                    Spinner s = (Spinner) findViewById(R.id.followers_spinner);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ProfileActivity.this, android.R.layout.simple_spinner_item, followers);
+                    s.setAdapter(adapter);
+                }
+
+
+            });
+
+
+            client.following(screenName, new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        JSONArray users = response.getJSONArray("users");
+                        User user;
+                        for (int i = 0; i < users.length(); i++){
+                            user =  User.fromJSON(users.getJSONObject(i));
+                            following.add(user.screenName);
+                        }
+                    } catch (JSONException e) {
+
+                        e.printStackTrace();
+                    }
+
+
+                    Spinner s = (Spinner) findViewById(R.id.following_spinner);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ProfileActivity.this, android.R.layout.simple_spinner_item, following);
+                    s.setAdapter(adapter);
+                }
+
+
+            });
         }
+
+
 
 
     }

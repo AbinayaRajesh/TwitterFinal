@@ -45,6 +45,7 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
         ComposeDialogFragment frag = new ComposeDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putBoolean("reply", false);
         frag.setArguments(args);
         return frag;
     }
@@ -55,6 +56,7 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
         args.putString("title", title);
         args.putString("screenName", screenName);
         args.putLong("id", id);
+        args.putBoolean("reply", true);
         frag.setArguments(args);
         return frag;
     }
@@ -78,13 +80,14 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
         btCancel.setOnClickListener(this);
         // title = getArguments().getString("title");
         userId = getArguments().getString("screenName");
+        reply = getArguments().getBoolean("reply");
 
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("username", "Enter Name");
         getDialog().setTitle(title);
-
-        if (userId == null) reply = false;
-        else reply = true;
+//
+//        if (userId == null) reply = false;
+//        else reply = true;
 
         final TextWatcher mTextEditorWatcher = new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -110,7 +113,6 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
             String data = etTweet.getText().toString();
             if (!reply) {
                 client.sendTweet(data, (new JsonHttpResponseHandler() {
-
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         Tweet tweet = null;
@@ -124,18 +126,14 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
                         ComposeDialogListener listener = ((ComposeDialogListener) getActivity());
                         listener.onFinishedTweet(tweet);
                         dismiss();
-                        return;
 
                     }
                 }));
 
             } else {
-
-
                 client.reply("@" + userId + " " + data, tweet_id, (new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        // Intent intent = new Intent();
                         Tweet tweet = null;
 
                         try {
@@ -147,9 +145,6 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
                         ComposeDialogListener listener = (ComposeDialogListener) getActivity();
                         listener.onFinishedTweet(tweet);
                         dismiss();
-//                        Intent i = new Intent(this, TimelineActivity.class);
-//                        startActivity(i);
-                        return;
                     }
                 }));
             }

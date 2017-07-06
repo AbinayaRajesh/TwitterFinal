@@ -88,10 +88,6 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
 
         // set the adapter
         rvTweets.setAdapter(tweetAdapter);
-
-
-
-
         return v;
     }
 

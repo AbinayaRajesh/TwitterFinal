@@ -154,10 +154,42 @@ public class TwitterClient extends OAuthBaseClient {
 
 
     public void search(String query, AsyncHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("search/tweets");
+        String apiUrl = getApiUrl("search/tweets.json");
         // Can specify query string params directly or through RequestParams.
         RequestParams params = new RequestParams();
         params.put("query", query);
+        client.get(apiUrl, params, handler);
+    }
+
+    public void followers(String screenName, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("followers/list.json");
+        // Can specify query string params directly or through RequestParams.
+        RequestParams params = new RequestParams();
+        params.put("screen_name", screenName);
+        client.get(apiUrl, params, handler);
+    }
+
+    public void following(String screenName, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("friends/list.json");
+        // Can specify query string params directly or through RequestParams.
+        RequestParams params = new RequestParams();
+        params.put("screenName", screenName);
+        client.get(apiUrl, params, handler);
+    }
+
+    public void followersMe(AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("followers/list.json");
+        // Can specify query string params directly or through RequestParams.
+        RequestParams params = new RequestParams();
+        //params.put("screen_name", screenName);
+        client.get(apiUrl, params, handler);
+    }
+
+    public void followingMe(AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("friends/list.json");
+        // Can specify query string params directly or through RequestParams.
+        RequestParams params = new RequestParams();
+        //params.put("screenName", screenName);
         client.get(apiUrl, params, handler);
     }
 

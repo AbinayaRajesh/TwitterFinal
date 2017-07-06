@@ -33,6 +33,7 @@
             android:text="Tagline"
             android:textSize="12sp"/>
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/llCounts"
         android:layout_width="wrap_content"
@@ -44,13 +45,25 @@
             android:id="@+id/tvFollowers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5 Followers"/>
+            android:text="5 Followers"  />
+        <Spinner
+            android:layout_marginLeft="15dp"
+            android:id="@+id/followers_spinner"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content" />
+
         <TextView
             android:id="@+id/tvFollowing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="5 Following"/>
+        <Spinner
+            android:layout_marginLeft="15dp"
+            android:id="@+id/following_spinner"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
     <FrameLayout
         android:id="@+id/flContainer"
