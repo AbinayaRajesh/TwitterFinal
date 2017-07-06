@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,12 +22,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
-
-import static com.codepath.apps.restclienttemplate.fragments.DetailsDialogFragment.tweetAdapter;
 
 public class TimelineActivity extends AppCompatActivity implements ComposeDialogFragment.ComposeDialogListener, DetailsDialogFragment.DetailsDialogListener {
     // implements TweetsListFragment.TweetSelectedListener
@@ -103,39 +104,115 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
 
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_timeline, menu);
 
         MenuItem searchItem = menu.findItem(R.id.miSearch);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+                client.search(query, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                        JSONArray statuses;
+//                        if(response != null) {
+//                            // Get the docs json array
+//                            try {
+//                                statuses = response.getJSONArray("statuses");
+//                                // Remove all books from the adapter
+//                                tweetAdapter.clear();
+//                                // Load model objects into the adapter
+//                                for (int i = 0; i<statuses.length(); i++) {
+//                                    tweets.add(statuses.getJSONObject(i)); // add book through the adapter
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//
+//                            tweetAdapter.notifyDataSetChanged();
+//                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                    }
+                });
+                return true;
+            }
+
+        });
+        return true;
+
+    }
+
+
+
+//
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_timeline, menu);
+//
+//       // here
+//
+//
+//        MenuItem searchItem = menu.findItem(R.id.miSearch);
 //        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 //
 //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//
+//
 //            @Override
 //            public boolean onQueryTextSubmit(String query) {
 //                // perform query here
 //                client.search(query, new JsonHttpResponseHandler() {
 //                    @Override
 //                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-////                        JSONArray statuses;
-////                        if(response != null) {
-////                            // Get the docs json array
-////                            try {
-////                                statuses = response.getJSONArray("statuses");
-////                                // Remove all books from the adapter
-////                                tweetAdapter.clear();
-////                                // Load model objects into the adapter
-////                                for (int i = 0; i<statuses.length(); i++) {
-////                                    tweets.add(statuses.getJSONObject(i)); // add book through the adapter
-////                                }
-////                            } catch (JSONException e) {
-////                                e.printStackTrace();
-////                            }
-////
-////
-////                            tweetAdapter.notifyDataSetChanged();
-////                        }
+//                        JSONArray statuses;
+//                        if (response != null) {
+//                            // Get the docs json array
+//                            try {
+//                                statuses = response.getJSONArray("statuses");
+//                                // Remove all books from the adapter
+//                                tweetAdapter.clear();
+//                                // Load model objects into the adapter
+//                                for (int i = 0; i < statuses.length(); i++) {
+//                                    tweets.add(statuses.getJSONObject(i)); // add book through the adapter
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//
+//                            tweetAdapter.notifyDataSetChanged();
+//                        }
 //                    }
 //
 //                    @Override
@@ -153,51 +230,54 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
 //                        super.onFailure(statusCode, headers, responseString, throwable);
 //                    }
 //                });
-//                        }
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                        JSONArray statuses;
-//                        if(response != null) {
-//                            // Get the docs json array
-//                            try {
-//                                statuses = response.getJSONArray("statuses");
-//                                // Remove all books from the adapter
-//                                tweetAdapter.clear();
-//                                // Load model objects into the adapter
-//                                for (int i = 0; i<statuses.length(); i++) {
-//                                    abooks.add(statuses.getJSONObject(i)); // add book through the adapter
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
+//            }
 //
 //
-//                            tweetAdapter.notifyDataSetChanged();
-//                        }
+////            @Override
+////            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+////                JSONArray statuses;
+////                if (response != null) {
+////                    // Get the docs json array
+////                    try {
+////                        statuses = response.getJSONArray("statuses");
+////                        // Remove all books from the adapter
+////                        tweetAdapter.clear();
+////                        // Load model objects into the adapter
+////                        for (int i = 0; i < statuses.length(); i++) {
+////                            abooks.add(statuses.getJSONObject(i)); // add book through the adapter
+////                        }
+////                    } catch (JSONException e) {
+////                        e.printStackTrace();
+////                    }
+////
+////
+////                    tweetAdapter.notifyDataSetChanged();
+////                }
 //
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//
-//                    }
-
-//
-//                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
-//                // see https://code.google.com/p/android/issues/detail?id=24599
-////                searchView.clearFocus();
-//
-//                return true;
 //            }
 //
 //            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
+//            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+//
 //            }
+//
+//
+//            // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
+//            // see https://code.google.com/p/android/issues/detail?id=24599
+////                searchView.clearFocus();
+//
+//                // return true;
+//
 //        });
+//        @Override
+//        public boolean onQueryTextChange(String newText) {
+//            return false;
+//        }
+//
+//        return true;
+//
+//    }
 
-        return true;
-    }
 
     private void showComposeDialog() {
         FragmentManager fm = getSupportFragmentManager();
@@ -251,7 +331,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
                 // hideProgressBar();
                 // addItems(response);
-                tweetAdapter.clear();
+                // tweetAdapter.clear();
 
                 for (int i = 0; i < json.length(); i++) {
                     Tweet tweet = null;
@@ -265,7 +345,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
                 }
 
                 // Now we call setRefreshing(false) to signal refresh has finished
-                swipeContainer.setRefreshing(false);
+                // swipeContainer.setRefreshing(false);
             }
 
             public void onFailure(Throwable e) {
@@ -301,7 +381,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         // REQUEST_CODE is defined above
-        if (resultCode == RESULT_OK ) {
+        if (resultCode == RESULT_OK && requestCode != 3) {
             // && requestCode == REQUEST_CODE
 
             Tweet tweet = (Tweet) Parcels.unwrap(data.getParcelableExtra("NewTweet"));
