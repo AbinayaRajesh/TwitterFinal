@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.codepath.apps.restclienttemplate.R;
@@ -34,6 +35,8 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
     long tweet_id;
     boolean reply;
     String userId;
+    ProgressBar pb;
+    TextView tvReply;
 
     public ComposeDialogFragment() {}
 
@@ -70,11 +73,16 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // on some click or some loading we need to wait for...
+        pb = (ProgressBar) view.findViewById(R.id.pbLoading);
+        pb.setVisibility(ProgressBar.INVISIBLE);
+
         // Get field from view
         etTweet = (EditText) view.findViewById(R.id.etTweet);
         tvCharLeft = (TextView) view.findViewById(R.id.tvCharLeft);
         btSubmit = (Button) view.findViewById(R.id.tweet_action);
         btCancel = (Button) view.findViewById(R.id.cancel_action);
+        tvReply = (TextView) view.findViewById(R.id.tvReply);
         client = TwitterApp.getRestClient();
         btSubmit.setOnClickListener(this);
         btCancel.setOnClickListener(this);
@@ -109,6 +117,9 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        pb.setVisibility(ProgressBar.VISIBLE);
+        tvReply.setVisibility(View.GONE);
+
 
         if (v.getId() == R.id.tweet_action) {
             String data = etTweet.getText().toString();
@@ -126,6 +137,8 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
                         }
                         ComposeDialogListener listener = ((ComposeDialogListener) getActivity());
                         listener.onFinishedTweet(tweet);
+                        pb.setVisibility(ProgressBar.INVISIBLE);
+                        tvReply.setVisibility(View.VISIBLE);
                         dismiss();
 
                     }
@@ -145,6 +158,8 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
                         }
                         ComposeDialogListener listener = (ComposeDialogListener) getActivity();
                         listener.onFinishedTweet(tweet);
+                        pb.setVisibility(ProgressBar.INVISIBLE);
+                        tvReply.setVisibility(View.VISIBLE);
                         dismiss();
                     }
                 }));
