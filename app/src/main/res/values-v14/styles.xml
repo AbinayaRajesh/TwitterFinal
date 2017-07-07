@@ -7,6 +7,9 @@
     -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- API 14 theme customizations can go here. -->
+        <item name="colorPrimary">@color/twitter_blue</item>
+        <item name="colorPrimaryDark">@color/twitter_blue_50</item>
+        <item name="colorAccent">@color/medium_gray</item>
     </style>
 
 </resources>

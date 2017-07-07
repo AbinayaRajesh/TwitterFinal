@@ -100,6 +100,7 @@ public class ComposeDialogFragment extends DialogFragment implements View.OnClic
         };
 
         etTweet.addTextChangedListener(mTextEditorWatcher);
+        tweet_id = getArguments().getLong("id");
 
     }
 
