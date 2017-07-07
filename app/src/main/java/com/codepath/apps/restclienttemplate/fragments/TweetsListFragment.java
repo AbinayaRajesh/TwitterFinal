@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codepath.apps.restclienttemplate.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.TweetAdapter;
 import com.codepath.apps.restclienttemplate.TwitterClient;
@@ -32,6 +33,8 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
         public void onTweetSelected(Tweet tweet);
 
         }
+
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
@@ -75,16 +78,16 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-//        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-//            @Override
-//            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-//                // Triggered only when new data needs to be appended to the list
-//                // Add whatever code is needed to append new items to the bottom of the list
-//                loadNextDataFromApi(totalItemsCount - 1);
-//            }
-//        };
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadNextDataFromApi(totalItemsCount - 1);
+            }
+        };
         // Adds the scroll listener to RecyclerView
-        //rvTweets.addOnScrollListener(scrollListener);
+        rvTweets.addOnScrollListener(scrollListener);
 
         // set the adapter
         rvTweets.setAdapter(tweetAdapter);
@@ -122,6 +125,8 @@ public class TweetsListFragment extends Fragment implements TweetAdapter.TweetAd
         tweetAdapter.notifyItemInserted(0);
         rvTweets.scrollToPosition(0);
     }
+
+    public void loadNextDataFromApi(int offset) { }
 
 
 }

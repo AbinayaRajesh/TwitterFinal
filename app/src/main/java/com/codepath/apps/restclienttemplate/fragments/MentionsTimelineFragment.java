@@ -113,4 +113,34 @@ public class MentionsTimelineFragment extends TweetsListFragment {
 
 
     }
+
+    public void loadNextDataFromApi(int offset) {
+        long Id = tweets.get(tweets.size()-1).uid;
+        client.getHomeTimeline(Id, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                // hideProgressBar();
+
+                for (int i = 0; i < json.length(); i++) {
+                    Tweet tweet = null;
+                    try {
+                        tweet = Tweet.fromJSON(json.getJSONObject(i));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    tweets.add(tweet);
+                    tweetAdapter.notifyItemInserted(tweets.size() - 1);
+                }
+
+                // Now we call setRefreshing(false) to signal refresh has finished
+                swipeContainer.setRefreshing(false);
+            }
+
+            public void onFailure(Throwable e) {
+                // hideProgressBar();
+                Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+            }
+        });
+    }
 }
