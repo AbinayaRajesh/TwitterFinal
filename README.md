@@ -2,7 +2,7 @@
 
 Twitter is an android app that allows a user to view home and mentions timelines, view user profiles with user timelines, as well as compose and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
-Time spent: 30 hours spent in total
+Time spent: 35 hours spent in total
 
 ## User Stories
 
@@ -48,13 +48,13 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/AbinayaRajesh/TwitterFinal/blob/master/app/src/main/res/twitterPart2.mp4' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+It was really difficult to use fragments for the first time. Many parts of my app that worked before stopped functioning and I had to completely remodel everything. It was a very interesting concept and though it was hard, i think I learnt a lot while working with fragments and it is an import skill for programming in android.
 
 ## Open-source libraries used
 
