@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -31,6 +30,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
         query = getIntent().getStringExtra("query");
 
         client = TwitterApp.getRestClient();
@@ -44,29 +44,6 @@ public class SearchActivity extends AppCompatActivity {
 
         client.search(query, new JsonHttpResponseHandler() {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d("1", "hereee1");
-                super.onSuccess(statusCode, headers, response);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("1", "hereee1");
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Log.d("1", "hereee1");
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("1", "hereee1");
-                super.onFailure(statusCode, headers, responseString, throwable);
-            }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -85,8 +62,6 @@ public class SearchActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-               // populate the list view
-                //adapter = new TweetAdapter(tweets);
 
             }
 
