@@ -157,7 +157,7 @@ public class TwitterClient extends OAuthBaseClient {
         String apiUrl = getApiUrl("search/tweets.json");
         // Can specify query string params directly or through RequestParams.
         RequestParams params = new RequestParams();
-        params.put("query", query);
+        params.put("q", query);
         client.get(apiUrl, params, handler);
     }
 
@@ -173,7 +173,7 @@ public class TwitterClient extends OAuthBaseClient {
         String apiUrl = getApiUrl("friends/list.json");
         // Can specify query string params directly or through RequestParams.
         RequestParams params = new RequestParams();
-        params.put("screenName", screenName);
+        params.put("screen_name", screenName);
         client.get(apiUrl, params, handler);
     }
 

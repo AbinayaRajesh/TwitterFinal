@@ -89,6 +89,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         mListener = listener;
     }
 
+    // pass in the Tweets array in the constructor
+    public TweetAdapter(List<Tweet> tweets) {
+
+
+        mTweets = tweets;
+
+    }
+
     // for each row, inflate the layout and cache references into ViewHolder
 
     @Override

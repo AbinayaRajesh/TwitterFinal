@@ -21,8 +21,9 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
@@ -37,7 +38,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     private SwipeRefreshLayout swipeContainer;
     TwitterClient client = TwitterApp.getRestClient();
 
-    private JSONArray tweets;
+    public ArrayList<Tweet> tweets;
     TweetsPagerAdapter adapter;
 
 
@@ -62,7 +63,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         //fragmentTweetsList = (TweetsListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_timeline);
         ButterKnife.bind(this);
 
-        tweets = new JSONArray();
+        // tweets = new JSONArray();
 
         // ComposeDialogFragment.DismissListner(closeListener);
 
@@ -90,44 +91,15 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // perform query here
-                client.search(query, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                        JSONArray statuses;
-//                        if(response != null) {
-//                            // Get the docs json array
-//                            try {
-//                                statuses = response.getJSONArray("statuses");
-//                                // Remove all books from the adapter
-//                                tweetAdapter.clear();
-//                                // Load model objects into the adapter
-//                                for (int i = 0; i<statuses.length(); i++) {
-//                                    tweets.add(statuses.getJSONObject(i)); // add book through the adapter
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//
-//                            tweetAdapter.notifyDataSetChanged();
-//                        }
-                    }
+                // Make a new search view
+                // first parameter is the context, second is the class of the activity to launch
+                Intent i = new Intent(TimelineActivity.this, SearchActivity.class);
+                // put "extras" into the bundle for access in the second activity
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        super.onFailure(statusCode, headers, throwable, errorResponse);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                        super.onFailure(statusCode, headers, throwable, errorResponse);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        super.onFailure(statusCode, headers, responseString, throwable);
-                    }
-                });
+                i.putExtra("query", query);
+                // movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
+                // brings up the second activity
+                startActivity(i);
                 return true;
             }
 
@@ -275,9 +247,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
 
     }
 
-    public void onSearch(MenuItem item) {
-        showComposeDialog();
-    }
+
 
     @Override
     public void onFinishedTweet(Tweet tweet) {
